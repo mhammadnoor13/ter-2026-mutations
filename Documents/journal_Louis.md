@@ -104,3 +104,42 @@ Cette mutation correspond à une modification locale et volontaire du comporteme
 
 L’observation des exécutions montre que cette mutation peut dans certains cas modifier l’état interne du programme (le I infection), et dans d’autres cas rester invisible pour les tests existants. 
 On observe donc l’importance du modèle RIPR pour analyser précisément pourquoi certains mutants sont détectés et d’autres non.
+
+
+- Prise en main de la matrice de mutation
+
+Lancement de l’app Web de visualisation de la matrice de mutation 
+
+L’interface Web affiche, pour chaque mutant :
+
+1. la classe mutée
+2. la méthode concernée
+3. la ligne de code affectée
+4. le type de mutateur appliqué
+5. le nombre total de mutations associées
+
+Chaque mutant correspond à une entrée distincte dans la matrice, représentant une modification précise du programme.
+
+Pour chaque mutant, l’outil indique explicitement l’état du modèle RIP :
+
+     - Reachability: si la ligne mutée est atteinte par au moins un test
+
+     - Infectio: si la mutation provoque une modification de l’état interne du programme
+
+     - Propagation : si cette modification se propage jusqu’à un oracle de test
+Ces informations permettent d’analyser finement pourquoi un mutant est tué ou survit
+
+Analyse des tests :
+
+     - les tests qui atteignent la ligne mutée (partie "Tests couverts")
+
+     - les tests qui passent malgré la mutation (partie "Tests passés")
+
+     - les tests qui détectent la mutation et tuent le mutant (partie "Tests qui ont tués des mutants")
+
+
+Apport pour le projet de recherche
+
+Le fait de pouvoir voir de cette facon la matrice facilite la compréhension du comportement des tests face aux mutants.
+La matrice permet d’identifier des faiblesses dans certains tests surtout au niveau de l’oracle.
+Cette app permet de comprendre l’intérêt du modèle RIPR pour analyser et améliorer la qualité des suites de tests dans le cadre du test par mutation.
