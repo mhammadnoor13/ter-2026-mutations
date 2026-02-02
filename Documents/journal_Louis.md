@@ -94,3 +94,13 @@ Analyser des cas ciblés de mutants selon le modèle RIPR / identifier précisé
     - état interne minimal
 6. Classer le problème selon RIPR
 7. Proposer une amélioration de test
+
+- Observation d’une mutation
+
+Lors de la prise en main du projet, j’ai observé une mutation appliquée dans le code du Basic Planner sur une variable interne j.
+Dans la version originale, la variable est incrémentée selon l’instruction j=j+1. Dans la version mutée, cette instruction est remplacée par j=j*2+1
+
+Cette mutation correspond à une modification locale et volontaire du comportement du programme afin de simuler une erreur réaliste de développement. Elle n’entraîne pas nécessairement un plantage du programme mais peut produire des valeurs différentes selon les données d’entrée.
+
+L’observation des exécutions montre que cette mutation peut dans certains cas modifier l’état interne du programme (le I infection), et dans d’autres cas rester invisible pour les tests existants. 
+On observe donc l’importance du modèle RIPR pour analyser précisément pourquoi certains mutants sont détectés et d’autres non.
