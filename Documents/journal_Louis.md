@@ -1,3 +1,6 @@
+02 février 2026
+
+
 - Prise en main projet TER-2025-mutations
 
 documents/
@@ -35,3 +38,39 @@ Ce script shell est utilisé pour automatiser l’exécution des tests sur les v
 Fichiers de résultats (*.txt)
 
 Les fichiers tels que test_original_output.txt, test_mutated_output.txt, diff_results.txt ou filtered_*.txt correspondent à des traces expérimentales (sorties de tests, comparaisons, différences observées).
+
+
+- Exécution des tests sur la version originale
+
+    - mvn test sur Basic_planner
+
+22 tests ont été lancés, sans aucune erreur ni échec.
+Le plugin PIT génére une analyse de mutation complète. PIT a produit 207 mutants, 127 ont été tués, pour un score de mutation global de 61 % et une force de test estimée à 82 %. 
+Ces résultats montrent que même si la couverture est correcte plusieurs mutants survivent et ils seraient intéressants pour une analyse plus précise via le modèle RIPR.
+
+- Exécution des tests sur la version mutée
+
+    - mvn test sur Basic_planner_mutated
+
+Première tentative a échoué lors de la compilation car il y avait une incohérence entre le nom de la classe publique (BasicPlannerImpl) et le nom du fichier source (BasicPlannerImplMutated.java).
+Après correction, la compilation s’est déroulée correctement, mais l’exécution des tests a donner plusieurs échecs :
+
+-> des tests liés à la récupération du rendez-vous courant (testSeeCurrentMeetingCurrently)
+
+-> des tests portant sur le comportement muté d’une méthode spécifique (MutationTest)
+
+-> des tests de gestion des conflits lors de l’ajout de réunions (TestAddMeeting)
+
+Ces échecs indiquent que la mutation introduite modifie effectivement le comportement du programme de manière observable par les oracles de test. Les mutants correspondants sont donc tués (Propagation et de Revealability).
+
+- script compare_tests.sh
+Permet de comparer automatiquement les sorties des tests entre la version originale et la version mutée.
+
+Le script détecte des différences explicites dans les traces d’exécution, notamment sur l’évolution de la variable interne j :
+
+version originale : j = 0, retour (true, 0)
+
+version mutée : j = -1, retour (false, -1)
+
+Ces différences confirment que la mutation provoque une infection de l’état interne du programme (valeurs observables).
+La comparaison original / muté est donc validée comme utile pour l’analyse du RIPR en sutrtout pour l’identification de l’état Infect.
