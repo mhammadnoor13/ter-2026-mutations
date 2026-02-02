@@ -74,3 +74,23 @@ version mutée : j = -1, retour (false, -1)
 
 Ces différences confirment que la mutation provoque une infection de l’état interne du programme (valeurs observables).
 La comparaison original / muté est donc validée comme utile pour l’analyse du RIPR en sutrtout pour l’identification de l’état Infect.
+
+- Objectifs
+
+Objectif du ter de 2025 -> explorer la faisabilité d’une analyse du test par mutation à l’aide de PIT et du modèle RIPR. 
+Identification des limites des outils existants (en particulier état Infect) / exploration de pistes techniques permettant de comparer le comportement d’un programme original et muté
+
+Objectif du ter de 2026 -> structurer et exploiter les résultats de2025 afin d’aider le testeur avec les mutants survivants. 
+Analyser des cas ciblés de mutants selon le modèle RIPR / identifier précisément pourquoi ils survivent (R, I ou P) / essayer d'améliorer la méthodo des tests unitaires
+
+- Idée de workflow :
+
+1. Lancer PIT
+2. Identifier un mutant survivant
+3. Identifier les tests qui le couvrent
+4. Exécuter ces tests sur original et muté
+5. Observer :
+    - sortie
+    - état interne minimal
+6. Classer le problème selon RIPR
+7. Proposer une amélioration de test
