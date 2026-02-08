@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Chemins des projets
-PROJECT_ORIGINAL="Basic_planner"
-PROJECT_MUTATED="Basic_planner_mutated"
+PROJECT_ORIGINAL="../ter-2025-archives/Basic_planner"
+PROJECT_MUTATED="../ter-2025-archives/Basic_planner_mutated"
 
 # Extraction des parties encadrées par "#######"
 extract_section() {
@@ -12,20 +12,20 @@ extract_section() {
 # Exécuter les tests et capturer les sorties
 echo "🟢 Exécution des tests sur la version ORIGINALE..."
 cd "$PROJECT_ORIGINAL" || exit
-mvn -DskipPitest -Dtest=MutationTest test > ../test_original_output.txt
+mvn -DskipPitest -Dtest=MutationTest test > ../../experimentations/test_original_output.txt
 
 echo "🟠 Exécution des tests sur la version MUTÉE..."
 cd ../"$PROJECT_MUTATED" || exit
-mvn -DskipPitest -Dtest=MutationTest test > ../test_mutated_output.txt
+mvn -DskipPitest -Dtest=MutationTest test > ../../experimentations/test_mutated_output.txt
 
 
 # Extraire uniquement la partie entre ######
-extract_section ../test_original_output.txt > ../filtered_original.txt
-extract_section ../test_mutated_output.txt > ../filtered_mutated.txt
+extract_section ../../experimentations/test_original_output.txt > ../../experimentations/filtered_original.txt
+extract_section ../../experimentations/test_mutated_output.txt > ../../experimentations/filtered_mutated.txt
 
 # Comparaison des outputs
 echo "🔍 Comparaison des résultats..."
-diff -y --suppress-common-lines ../filtered_original.txt ../filtered_mutated.txt > ../diff_results.txt
+diff -y --suppress-common-lines ../../experimentations/filtered_original.txt ../../experimentations/filtered_mutated.txt > ../../experimentations/diff_results.txt
 
 # Afficher les différences si elles existent
 if [ -s ../diff_results.txt ]; then

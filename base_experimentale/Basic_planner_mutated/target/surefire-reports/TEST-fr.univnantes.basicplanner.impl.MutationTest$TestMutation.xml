@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="fr.univnantes.basicplanner.impl.MutationTest$TestMutation" time="0.044" tests="3" errors="0" skipped="0" failures="1">
+  <properties>
+    <property name="java.specification.version" value="23"/>
+    <property name="sun.cpu.isalist" value="amd64"/>
+    <property name="sun.jnu.encoding" value="Cp1252"/>
+    <property name="java.class.path" value="C:\Users\remyr\OneDrive\Bureau\projet\ter-2025-mutations\code\Basic_planner_mutated\target\test-classes;C:\Users\remyr\OneDrive\Bureau\projet\ter-2025-mutations\code\Basic_planner_mutated\target\classes;C:\Users\remyr\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.1\junit-jupiter-5.10.1.jar;C:\Users\remyr\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.1\junit-jupiter-api-5.10.1.jar;C:\Users\remyr\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\remyr\.m2\repository\org\junit\platform\junit-platform-commons\1.10.1\junit-platform-commons-1.10.1.jar;C:\Users\remyr\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\remyr\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.1\junit-jupiter-params-5.10.1.jar;C:\Users\remyr\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.1\junit-jupiter-engine-5.10.1.jar;C:\Users\remyr\.m2\repository\org\junit\platform\junit-platform-engine\1.10.1\junit-platform-engine-1.10.1.jar;C:\Users\remyr\.m2\repository\org\mockito\mockito-core\5.7.0\mockito-core-5.7.0.jar;C:\Users\remyr\.m2\repository\net\bytebuddy\byte-buddy\1.14.9\byte-buddy-1.14.9.jar;C:\Users\remyr\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.9\byte-buddy-agent-1.14.9.jar;C:\Users\remyr\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\remyr\.m2\repository\fr\inria\gforge\spoon\spoon-core\11.2.1-beta-9\spoon-core-11.2.1-beta-9.jar;C:\Users\remyr\.m2\repository\org\eclipse\jdt\org.eclipse.jdt.core\3.41.0\org.eclipse.jdt.core-3.41.0.jar;C:\Users\remyr\.m2\repository\org\eclipse\jdt\ecj\3.41.0\ecj-3.41.0.jar;C:\Users\remyr\.m2\repository\com\martiansoftware\jsap\2.1\jsap-2.1.jar;C:\Users\remyr\.m2\repository\org\slf4j\slf4j-api\2.0.17\slf4j-api-2.0.17.jar;C:\Users\remyr\.m2\repository\commons-io\commons-io\2.18.0\commons-io-2.18.0.jar;C:\Users\remyr\.m2\repository\org\apache\maven\maven-model\3.6.0\maven-model-3.6.0.jar;C:\Users\remyr\.m2\repository\org\codehaus\plexus\plexus-utils\3.1.0\plexus-utils-3.1.0.jar;C:\Users\remyr\.m2\repository\org\apache\commons\commons-lang3\3.17.0\commons-lang3-3.17.0.jar;C:\Users\remyr\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.18.3\jackson-databind-2.18.3.jar;C:\Users\remyr\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.18.3\jackson-annotations-2.18.3.jar;C:\Users\remyr\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.18.3\jackson-core-2.18.3.jar;C:\Users\remyr\.m2\repository\org\apache\commons\commons-compress\1.27.1\commons-compress-1.27.1.jar;C:\Users\remyr\.m2\repository\commons-codec\commons-codec\1.17.1\commons-codec-1.17.1.jar;C:\Users\remyr\.m2\repository\org\jspecify\jspecify\1.0.0\jspecify-1.0.0.jar;C:\Users\remyr\.m2\repository\org\apache\maven\shared\maven-invoker\3.3.0\maven-invoker-3.3.0.jar;C:\Users\remyr\.m2\repository\org\apache\maven\shared\maven-shared-utils\3.4.2\maven-shared-utils-3.4.2.jar;C:\Users\remyr\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar;"/>
+    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="user.variant" value=""/>
+    <property name="java.vendor.url" value="https://java.oracle.com/"/>
+    <property name="user.timezone" value="Europe/Paris"/>
+    <property name="os.name" value="Windows 11"/>
+    <property name="java.vm.specification.version" value="23"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="FR"/>
+    <property name="sun.boot.library.path" value="C:\Users\remyr\.jdks\openjdk-23.0.2\bin"/>
+    <property name="sun.java.command" value="C:\Users\remyr\AppData\Local\Temp\surefire4021148682528237467\surefirebooter-20250402165427912_3.jar C:\Users\remyr\AppData\Local\Temp\surefire4021148682528237467 2025-04-02T16-54-27_699-jvmRun1 surefire-20250402165427912_1tmp surefire_0-20250402165427912_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="test" value="MutationTest"/>
+    <property name="surefire.test.class.path" value="C:\Users\remyr\OneDrive\Bureau\projet\ter-2025-mutations\code\Basic_planner_mutated\target\test-classes;C:\Users\remyr\OneDrive\Bureau\projet\ter-2025-mutations\code\Basic_planner_mutated\target\classes;C:\Users\remyr\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.1\junit-jupiter-5.10.1.jar;C:\Users\remyr\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.1\junit-jupiter-api-5.10.1.jar;C:\Users\remyr\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\remyr\.m2\repository\org\junit\platform\junit-platform-commons\1.10.1\junit-platform-commons-1.10.1.jar;C:\Users\remyr\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\remyr\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.1\junit-jupiter-params-5.10.1.jar;C:\Users\remyr\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.1\junit-jupiter-engine-5.10.1.jar;C:\Users\remyr\.m2\repository\org\junit\platform\junit-platform-engine\1.10.1\junit-platform-engine-1.10.1.jar;C:\Users\remyr\.m2\repository\org\mockito\mockito-core\5.7.0\mockito-core-5.7.0.jar;C:\Users\remyr\.m2\repository\net\bytebuddy\byte-buddy\1.14.9\byte-buddy-1.14.9.jar;C:\Users\remyr\.m2\repository\net\bytebuddy\byte-buddy-agent\1.14.9\byte-buddy-agent-1.14.9.jar;C:\Users\remyr\.m2\repository\org\objenesis\objenesis\3.3\objenesis-3.3.jar;C:\Users\remyr\.m2\repository\fr\inria\gforge\spoon\spoon-core\11.2.1-beta-9\spoon-core-11.2.1-beta-9.jar;C:\Users\remyr\.m2\repository\org\eclipse\jdt\org.eclipse.jdt.core\3.41.0\org.eclipse.jdt.core-3.41.0.jar;C:\Users\remyr\.m2\repository\org\eclipse\jdt\ecj\3.41.0\ecj-3.41.0.jar;C:\Users\remyr\.m2\repository\com\martiansoftware\jsap\2.1\jsap-2.1.jar;C:\Users\remyr\.m2\repository\org\slf4j\slf4j-api\2.0.17\slf4j-api-2.0.17.jar;C:\Users\remyr\.m2\repository\commons-io\commons-io\2.18.0\commons-io-2.18.0.jar;C:\Users\remyr\.m2\repository\org\apache\maven\maven-model\3.6.0\maven-model-3.6.0.jar;C:\Users\remyr\.m2\repository\org\codehaus\plexus\plexus-utils\3.1.0\plexus-utils-3.1.0.jar;C:\Users\remyr\.m2\repository\org\apache\commons\commons-lang3\3.17.0\commons-lang3-3.17.0.jar;C:\Users\remyr\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.18.3\jackson-databind-2.18.3.jar;C:\Users\remyr\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.18.3\jackson-annotations-2.18.3.jar;C:\Users\remyr\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.18.3\jackson-core-2.18.3.jar;C:\Users\remyr\.m2\repository\org\apache\commons\commons-compress\1.27.1\commons-compress-1.27.1.jar;C:\Users\remyr\.m2\repository\commons-codec\commons-codec\1.17.1\commons-codec-1.17.1.jar;C:\Users\remyr\.m2\repository\org\jspecify\jspecify\1.0.0\jspecify-1.0.0.jar;C:\Users\remyr\.m2\repository\org\apache\maven\shared\maven-invoker\3.3.0\maven-invoker-3.3.0.jar;C:\Users\remyr\.m2\repository\org\apache\maven\shared\maven-shared-utils\3.4.2\maven-shared-utils-3.4.2.jar;C:\Users\remyr\.m2\repository\javax\inject\javax.inject\1\javax.inject-1.jar;"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="C:\Users\remyr"/>
+    <property name="user.language" value="fr"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-01-21"/>
+    <property name="java.home" value="C:\Users\remyr\.jdks\openjdk-23.0.2"/>
+    <property name="file.separator" value="\"/>
+    <property name="basedir" value="C:\Users\remyr\OneDrive\Bureau\projet\ter-2025-mutations\code\Basic_planner_mutated"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="surefire.real.class.path" value="C:\Users\remyr\AppData\Local\Temp\surefire4021148682528237467\surefirebooter-20250402165427912_3.jar"/>
+    <property name="user.script" value=""/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="skipPitest" value="true"/>
+    <property name="java.runtime.version" value="23.0.2+7-58"/>
+    <property name="user.name" value="remyr"/>
+    <property name="stdout.encoding" value="Cp1252"/>
+    <property name="path.separator" value=";"/>
+    <property name="os.version" value="10.0"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="localRepository" value="C:\Users\remyr\.m2\repository"/>
+    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
+    <property name="java.io.tmpdir" value="C:\Users\remyr\AppData\Local\Temp\"/>
+    <property name="java.version" value="23.0.2"/>
+    <property name="user.dir" value="C:\Users\remyr\OneDrive\Bureau\projet\ter-2025-mutations\code\Basic_planner_mutated"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="sun.os.patch.level" value=""/>
+    <property name="native.encoding" value="Cp1252"/>
+    <property name="java.library.path" value="C:\Users\remyr\.jdks\openjdk-23.0.2\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\remyr\bin;C:\Program Files\Python313\Scripts;C:\Program Files\Python313;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\dotnet;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\Git\cmd;C:\Users\remyr\.jdks\openjdk-23.0.2\bin;C:\Program Files\apache-maven-3.9.9\bin;C:\Users\remyr\AppData\Local\Microsoft\WindowsApps;C:\Users\remyr\AppData\Local\Microsoft\WinGet\Packages\Schniz.fnm_Microsoft.Winget.Source_8wekyb3d8bbwe;."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="Cp1252"/>
+    <property name="java.vendor" value="Oracle Corporation"/>
+    <property name="java.vm.version" value="23.0.2+7-58"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="67.0"/>
+  </properties>
+  <testcase name="testMethode1" classname="fr.univnantes.basicplanner.impl.MutationTest$TestMutation" time="0.03">
+    <system-out><![CDATA[#######################
+Debut: i=1, b=false, j=0
+Retourne (false, 0)
+#######################
+Answer mutated: (false,0)
+]]></system-out>
+  </testcase>
+  <testcase name="testMethode2" classname="fr.univnantes.basicplanner.impl.MutationTest$TestMutation" time="0.001">
+    <system-out><![CDATA[#######################
+Debut: i=0, b=true, j=0
+Apres incrementation: j=1
+Retourne (true, 1)
+#######################
+Answer mutated: (true,1)
+]]></system-out>
+  </testcase>
+  <testcase name="testMethode3" classname="fr.univnantes.basicplanner.impl.MutationTest$TestMutation" time="0.004">
+    <failure message="expected: &lt;true&gt; but was: &lt;false&gt;" type="org.opentest4j.AssertionFailedError"><![CDATA[org.opentest4j.AssertionFailedError: expected: <true> but was: <false>
+	at org.junit.jupiter.api.AssertionFailureBuilder.build(AssertionFailureBuilder.java:151)
+	at org.junit.jupiter.api.AssertionFailureBuilder.buildAndThrow(AssertionFailureBuilder.java:132)
+	at org.junit.jupiter.api.AssertEquals.failNotEqual(AssertEquals.java:197)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:182)
+	at org.junit.jupiter.api.AssertEquals.assertEquals(AssertEquals.java:177)
+	at org.junit.jupiter.api.Assertions.assertEquals(Assertions.java:1145)
+	at fr.univnantes.basicplanner.impl.MutationTest$TestMutation.testMethode3(MutationTest.java:51)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1597)
+]]></failure>
+    <system-out><![CDATA[#######################
+Debut: i=-1, b=true, j=0
+Apres incrementation: j=-1
+Retourne (false, -1)
+#######################
+Answer mutated: (false,-1)
+]]></system-out>
+  </testcase>
+</testsuite>

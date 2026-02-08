@@ -1,0 +1,8 @@
+Debut: i=1, b=false, j=0
+Retourne (false, 0)
+Debut: i=0, b=true, j=0
+Apres incrementation: j=1
+Retourne (true, 1)
+Debut: i=-1, b=true, j=0
+Apres incrementation: j=0
+Retourne (true, 0)

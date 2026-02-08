@@ -147,3 +147,5 @@ Cette app permet de comprendre l’intérêt du modèle RIPR pour analyser et am
 
         
 08 février 2026
+
+Architecture du git avec des dossier pertinent pour essayer d'avoir une bonne base du git de recherche.
