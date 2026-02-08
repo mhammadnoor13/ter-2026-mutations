@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analyse de la matrice de mutation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="cards">
+    <div class="infos">
+        <h1>Analyse de la matrice de mutation</h1>
+        <h2>Nombre de mutations : {{ size }}</h2>
+    </div>
+    {% for elt in data %}
+    <div class="card">
+        <h1>Classe mutée : <code>{{ elt.mutatedClass }}</code></h1>
+        <h2>Méthode mutée : <code>{{ elt.mutatedMethod }}</code></h2>
+        <p><strong>Description : </strong>{{ elt.methodDescription }}</p>
+        <p><strong>Ligne affectée : </strong>{{ elt.lineNumber }}</p>
+        <p><strong>Fichier source : </strong>{{ elt.sourceFile }}</p>
+        <p><strong>Mutateur : </strong>{{ elt.mutator }}</p>
+
+        <!-- Statut RIP -->
+        <div class="rip-status">
+            <p><strong>Statut RIP :</strong></p>
+            <span class="rip-label">R:</span> <span class="rip-icon">{{ "✔️" if elt.RIP.R == "OK" else "❌" }}</span>
+            <span class="rip-label">I:</span> <span class="rip-icon">{{ "✔️" if elt.RIP.I == "OK" else "❌"}}</span>
+            <span class="rip-label">P:</span> <span class="rip-icon">{{ "✔️" if elt.RIP.P == "OK" else "❌"}}</span>
+        </div>
+
+        <div class="subsections">
+            <div class="subsection" id="covering">
+                <p><strong>Tests couverts :</strong></p>
+                <ul>
+                    {% for test in elt.coveringTests %}
+                    <li>{{ test }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="subsection" id="succeeding">
+                <p><strong>Tests passés :</strong></p>
+                <ul>
+                    {% for test in elt.succeedingTests %}
+                    <li>{{ test }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="subsection" id="killing">
+                <p><strong>Tests qui ont tué des mutants :</strong></p>
+                <ul>
+                    {% for test in elt.killingTests %}
+                    <li>{{ test }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</body>
+</html>

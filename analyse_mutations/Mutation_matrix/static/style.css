@@ -1,0 +1,87 @@
+body {
+    background-color: #EEE;
+    margin: 20px;
+}
+
+.infos {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+h1, h2 {
+    margin: 0;
+    text-align: center;
+}
+
+h1 {
+    font-size: 40px;
+}
+
+h2 {
+    font-size: 23px;
+}
+
+.cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card {
+    background-color: #FFF;
+    padding: 10px;
+    border-radius: 10px;
+    border: solid 1px black;
+    box-shadow: 6px 6px 1px 4px rgb(0,0,0, 0.5);
+}
+
+.card h1, .card h2 {
+    text-align: center;
+    margin: 0;
+    font-size: 25px;
+}
+
+.card h2 {
+    font-size: 20px;
+    font-style: italic;
+}
+
+.card p {
+    margin: 5px;
+}
+
+code {
+    font-weight: normal;
+}
+
+.subsections {
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+}
+
+.subsection {
+    background-color: #DDD;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.subsection p {
+    margin: 0;
+}
+
+.rip-status {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+    /* margin-top: 10px; */
+}
+
+.rip-label {
+    font-weight: bold;
+}
+
+.rip-icon {
+    color: green;
+}
