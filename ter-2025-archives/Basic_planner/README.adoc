@@ -1,0 +1,72 @@
+= Basic Planner
+
+_Basic Planner_ is a Java library to manage a timetable of containing multiple meetings.
+
+*Features*:
+
+- Two meetings can never overlap,
+- A meeting can be moved to another time.
+- A meeting can have a reminder triggered a certain duration before the meeting,
+
+== Usage
+
+=== Configuration the planner instance
+
+Using this library requires creating a central and unique object of type `BasicPlanner`.
+This can be obtained with an instance of the class `BasicPlannerImpl`.
+
+```java
+BasicPlanner planner = new BasicPlannerImpl();
+```
+
+=== Create and add meetings
+
+```java
+// Prepare the time zone
+ZoneId timeZone = ZoneId.systemDefault();
+
+// Prepare start and end of the meeting
+Instant teamMeetingStart = TimeManagement.createInstant("2024-07-10 16:00", timeZone);
+Instant teamMeetingEnd = TimeManagement.createInstant("2024-07-10 17:00", timeZone);
+
+// Create the meeting
+Meeting teamMeeting = new MeetingImpl(teamMeetingStart, teamMeetingEnd,"Team meeting");
+
+// Add the meeting to the planner
+planner.addMeeting(teamMeeting);
+```
+
+=== See current meeting
+
+```java
+// If the current system time is between '2024-07-10 16:00' (start of teamMeeting) and '2024-07-10 17:00' (end of teamMeeting), 
+// teamMeeting will be the returned value
+Meeting currentMeeting = planner.seeCurrentMeeting();
+```
+
+=== Set a reminder and see active reminders
+```java
+// Set a reminder to be triggered 30 minutes before the meeting
+teamMeeting.setReminder(Duration.ofMinutes(30));
+
+// If the current system time is between '2024-07-10 15:30' (30 minutes before teamMeeting) and '2024-07-10 16:00' (start of teamMeeting), 
+// teamMeeting will be part of the returned value
+List<Meeting> activeMeetings = planner.seeActiveReminders();
+```
+
+=== Move a meeting
+
+```java
+// Move the meeting to the next day morning
+Instant teamMeetingNewStart = TimeManagement.createInstant("2024-07-11 09:30", timeZone);
+planner.moveMeeting(teamMeeting,teamMeetingNewStart);
+```
+
+
+== Compilation
+
+To compile the library:
+
+```
+mvn package
+```

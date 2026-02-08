@@ -1,0 +1,8 @@
+fr\univnantes\basicplanner\BasicPlanner.class
+fr\univnantes\basicplanner\impl\MeetingImpl.class
+fr\univnantes\util\TimeManagement.class
+fr\univnantes\basicplanner\Clock.class
+fr\univnantes\basicplanner\impl\BasicPlannerImpl.class
+fr\univnantes\basicplanner\Meeting.class
+fr\univnantes\basicplanner\impl\SystemClock.class
+fr\univnantes\basicplanner\PlannerException.class
