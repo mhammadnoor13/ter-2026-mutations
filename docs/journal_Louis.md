@@ -1,6 +1,5 @@
 02 février 2026
 
-
 - Prise en main projet TER-2025-mutations
 
 documents/
@@ -149,3 +148,109 @@ Cette app permet de comprendre l’intérêt du modèle RIPR pour analyser et am
 08 février 2026
 
 Architecture du git avec des dossier pertinent pour essayer d'avoir une bonne base du git de recherche.
+
+- Lire le code source PIT 
+- Identifier la partie mutateurs
+
+*Architecture simplifié de PIT :*
+
+1. Analyse des classes
+2. Génération des mutants (via ASM)
+3. Création d’une nouvelle version bytecode
+4. Sélection des tests pertinents
+5. Exécution isolée
+6. Rapport
+
+*Flux simplifié d'un mutant :*
+
+GregorMutationEngine -> Mutater -> ASM ClassVisitor -> Injection mutation
+
+(Gregor est le moteur principal de mutation)
+
+- On observe de nombreux mutateurs comme ConditionalsBoundaryMutator, MathMutator ou VoidMethodCallMutator. Ils implémentent tous MethodMutatorFactory.
+- PIT ne modifie pas le code source, il modifie les instructions bytecode via ASM. Chaque mutateur retourne un MethodVisitor personnalisé via l'import org.objectweb.asm.
+- PIT calcule d’abord quelles lignes sont couvertes par quels tests. Ensuite pour chaque mutant, il ne lance que les tests qui couvrent cette zone avec CoverageDatabase.java
+
+
+*Observation de GregorMutationEngine et de MathMutator*
+
+
+* GregorMutationEngine
+
+  - deux variables : mutationOperators: l’ensemble des mutateurs activés ET methodFilter: un filtre pour dire quelles méthodes sont candidates à mutation
+  - permet de fabriquer des mutateurs, méthode create permet de retourner un GregorMutater
+  - "Orchestre" et configure mais il n'y a pas de bytecode dans cette classe (pas d'utilisation d'ASM)
+
+
+    GregorMutater :
+    classe qui implement Mutater
+    methode findMutation : parcourir la classe et lister tous les mutants possibles sans forcément en appliquer un.
+    methode getMutation : produire les octets .class mutés pour un mutant donné
+
+* MathMutator
+
+  - Implémente MethodMutatorFactory 
+  - Methode create : donne un MathMethodVisitor ASM (c’est la mutation en action)
+    - Implémente la classe MathMethodVisitor :
+       - classe héritée de AbstractInsnMutator
+       - regarder les opcodes
+       - si opcode ∈ mutations possibles, alors créer un mutant
+       - si ce mutant est sélectionné, écrire l’opcode remplacé dans le flux ASM
+  
+
+        Exemple : 
+        MUTATIONS.put(Opcodes.IADD, new InsnSubstitution(Opcodes.ISUB,
+        "Replaced integer addition with subtraction"));
+
+        si PIT rencontre IADD (addition int) ,il peut créer un mutant qui remplace par ISUB
+
+
+        - AbstractInsnMutator 
+            -> ASM appelle visitInsn pour les instructions JVM sans opérandes (IADD, ISUB, RETURN…).
+            -> Création du mutant = registerMutation(...)
+            -> Décision d’appliquer ou pas = shouldMutate(newId)
+
+
+        - InsnSubstitution 
+            -> C’est la mutation “physique” du bytecode. on applique la mutation
+
+
+Résumé de l'étude des classes : PIT liste d’abord les mutants en visitant le bytecode avec ASM (mode collecte), puis génère le bytecode d’un mutant ciblé en réappliquant la visite avec un ClassWriter. La décision d’appliquer la mutation se fait via MutationContext.shouldMutate, et l’injection réelle se fait dans les MethodVisitor (ex: AbstractInsnMutator + InsnSubstitution).
+
+
+- Rôle de MutatingClassVisitor
+
+  - C’est un ClassVisitor ASM qui sert à :
+     - enregistrer des infos de classe
+     - décider quelles méthodes seront mutées (via filter)
+     - construire une chaîne de MethodVisitor : d’abord les mutateurs (ex: MathMutator) puis des “décorateurs” PIT (line tracker, instruction tracker, block tracker)
+
+C’est l'orchestrateur ASM pour une classe.
+
+Pipeline PIT :
+1. GregorMutationEngine fournit la liste des mutateurs + filtre et crée GregorMutater
+2. GregorMutater.findMutations visite la classe avec ASM + MutatingClassVisitor et enregistre tous les mutants (registerMutation)
+3. GregorMutater.getMutation(id) revisite la classe et quand shouldMutate(id) est vrai, le mutateur applique la transformation ASM (ex: InsnSubstitution)
+
+- étude de MethodMutationContext.java
+  - construire des MutationIdentifier uniques
+  - produire les MutationDetails (fichier, description, ligne, bloc)
+  - déléguer au ClassContext la collecte et la sélection (shouldMutate) 
+- étude de ClassContexte.java
+  -  contexte global de la classe pendant la visite ASM :
+     - ClassInfo classInfo : infos de la classe (nom interne, access, super…)
+     - String sourceFile : fichier source (pour le rapport)
+     - Optional<MutationIdentifier> target : le mutant ciblé 
+     - List<MutationDetails> mutations : tous les mutants collectés pendant la visite
+     - ConcreteBlockCounter blockCounter : tracking des blocs (CFG-ish)
+
+
+1. MutatingClassVisitor visite chaque méthode, construit MethodMutationContext, et empile les MethodVisitor des mutateurs.
+2. Chaque mutateur (ex MathMutator) intercepte des opcodes via AbstractInsnMutator.visitInsn.
+3. Quand un opcode est mutable, le mutateur appelle MethodMutationContext.registerMutation, qui :
+   - fabrique un MutationIdentifier = (Location, instructionIndex, mutatorId)
+   - construit un MutationDetails (fichier, ligne, bloc, description)
+   - et l’ajoute au ClassContext.
+4. L’application réelle dépend de ClassContext.shouldMutate :
+   - si target est vide → collecte seulement 
+   - si target = id → applique uniquement le mutant qui “match” cet id (via matches)
