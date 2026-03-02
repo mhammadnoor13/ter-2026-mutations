@@ -30,3 +30,16 @@ Lancer le serveur :
 ```bash
 python site.py mutations.xml mutations.json 
 ```
+
+
+Script run_mutation_matrix.sh pour un projet passer en paramètre:
+
+* lance les tests et l’analyse de mutation avec PIT 
+* extrait le fichier mutations.xml 
+* génère la matrice de mutation
+* démarre le serveur pour visualiser le site
+
+exemple : 
+```bash
+bash  run_mutation_matrix.sh ../../base_experimentale/Basic_planner/
+```
