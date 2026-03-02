@@ -32,6 +32,12 @@
             <artifactId>spoon-core</artifactId>
             <version>11.2.1-beta-9</version>
         </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>9.7</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -46,6 +52,12 @@
                         <additionalClasspathElement>${project.basedir}/code/Basic_planner/target/classes/fr/univnantes/basicplanner/impl</additionalClasspathElement>
                     </additionalClasspathElements>
                 </configuration>-->
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.5.0</version>
             </plugin>
 
             <plugin>

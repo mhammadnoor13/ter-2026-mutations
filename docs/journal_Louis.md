@@ -254,3 +254,47 @@ Pipeline PIT :
 4. L’application réelle dépend de ClassContext.shouldMutate :
    - si target est vide → collecte seulement 
    - si target = id → applique uniquement le mutant qui “match” cet id (via matches)
+
+
+
+*Implémentation d'un exemple*
+
+- Comprendre comment modifier du bytecode avec ASM
+- Reproduire un mutateur simple similaire à ceux de PIT
+- Générer et exécuter un mutant sans modifier la classe originale
+
+-> Lecture d’une classe compilée (Target.class) sous forme de tableau d’octets.
+
+-> Utilisation de ASM (ClassReader, ClassVisitor, MethodVisitor) pour parcourir le bytecode.
+
+-> Interception des instructions JVM via visitInsn(int opcode).
+
+-> Remplacement de l’instruction IADD par ISUB (mutation arithmétique simple).
+
+-> Génération d’un nouveau fichier .class muté dans un dossier séparé (target/asm-mutated).
+
+-> Chargement dynamique de cette classe mutée via un ClassLoader personnalisé.
+
+-> Invocation de la méthode modifiée par réflexion pour vérifier le comportement.
+
+- Résultat observé
+
+Classe originale : 10 + 3 = 13
+
+Classe mutée : 10 - 3 = 7
+
+La mutation au niveau bytecode est donc effectivement prise en compte à l’exécution.
+
+- Lien avec PIT
+
+Cette expérimentation reproduit le principe fondamental de PIT :
+
+-> Les mutations sont réalisées au niveau bytecode, pas au niveau source.
+
+-> Le .class original n’est jamais modifié.
+
+-> Un mutant est une version alternative temporaire du programme.
+
+-> Le mutant est chargé dynamiquement et exécuté de manière isolée.
+
+Ce prototype correspond à une version simplifiée du fonctionnement interne de PIT, sans la gestion des identifiants de mutation ni la sélection des tests.
