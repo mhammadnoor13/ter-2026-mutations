@@ -14,8 +14,7 @@ import static org.objectweb.asm.Opcodes.*;
 public class AsmIaddToIsubTransformer {
 
     //Transforme une classe (bytecode) en remplaçant toutes les instructions IADD par ISUB
-    public static byte[] transformer(byte[] classBytes) {
-
+    public static byte[] transformer(byte[] classBytes, int indexCible) {
 
         ClassReader reader = new ClassReader(classBytes);
 
@@ -24,6 +23,9 @@ public class AsmIaddToIsubTransformer {
 
         //ClassVisitor : intercepte les éléments de la classe pendant la lecture
         ClassVisitor cv = new ClassVisitor(ASM9, writer) {
+
+            //compteur de IADD déjà rencontré dans cette classe
+            private int compteurIadd = 0;
 
             /**
              * ASM appelle visitMethod pour chaque méthode de la classe
@@ -42,8 +44,11 @@ public class AsmIaddToIsubTransformer {
 
                         // Si l’instruction est IADD
                         if (opcode == IADD) {
-                            // On écrit ISUB à la place
-                            super.visitInsn(ISUB);
+                            if(compteurIadd == indexCible) {  //On change que l'occurence que l'on veut
+                                super.visitInsn(ISUB);
+                            }else{
+                                super.visitInsn(IADD);
+                            }
                         } else {
                             // Sinon on réécrit l’instruction identique (pas de mutation)
                             super.visitInsn(opcode);
@@ -72,7 +77,8 @@ public class AsmIaddToIsubTransformer {
                 .readAllBytes();
 
         // On applique la transformation ASM : IADD -> ISUB
-        byte[] mute = transformer(original);
+        int indexCible = 0;
+        byte[] mute = transformer(original, indexCible);
 
         /**
          * On écrit la version mutée dans un dossier séparé :

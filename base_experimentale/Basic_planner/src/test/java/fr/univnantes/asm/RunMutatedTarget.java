@@ -30,7 +30,7 @@ public class RunMutatedTarget {
         // On charge la classe "fr.univnantes.asm.Target" depuis mutatedBytes
         Class<?> mutatedTarget = loader.define("fr.univnantes.asm.Target", mutatedBytes);
 
-        // Création d’une instance de la classe chargée.
+        // Création d’une instance de la classe chargée
         Object instance = mutatedTarget.getDeclaredConstructor().newInstance();
 
         // On récupère la méthode add

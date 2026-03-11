@@ -2,7 +2,6 @@ package fr.univnantes.asm;
 
 public class Target {
     public int add(int a, int b) {
-        b = b + b;
         return a + b;
     }
 
