@@ -13,89 +13,68 @@ import static org.objectweb.asm.Opcodes.*;
 
 public class AsmIaddToIsubTransformer {
 
-    //Transforme une classe (bytecode) en remplaçant toutes les instructions IADD par ISUB
     public static byte[] transformer(byte[] classBytes, int indexCible) {
-
         ClassReader reader = new ClassReader(classBytes);
-
-        // ClassWriter : reconstruit un nouveau .class
         ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
 
-        //ClassVisitor : intercepte les éléments de la classe pendant la lecture
         ClassVisitor cv = new ClassVisitor(ASM9, writer) {
 
-            //compteur de IADD déjà rencontré dans cette classe
+            // nombre de IADD déjà vus dans toute la classe
             private int compteurIadd = 0;
 
-            /**
-             * ASM appelle visitMethod pour chaque méthode de la classe
-             * On a accès aux infos de la méthode (nom, descripteur, etc.)
-             */
             @Override
-            public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+            public MethodVisitor visitMethod(int access, String name, String desc,
+                                             String signature, String[] exceptions) {
 
                 MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
 
-                //On retourne un MethodVisitor personnalisé qui intercepte les instructions.
                 return new MethodVisitor(ASM9, mv) {
 
                     @Override
                     public void visitInsn(int opcode) {
-
-                        // Si l’instruction est IADD
                         if (opcode == IADD) {
-                            if(compteurIadd == indexCible) {  //On change que l'occurence que l'on veut
-                                super.visitInsn(ISUB);
-                            }else{
-                                super.visitInsn(IADD);
+                            if (compteurIadd == indexCible) {
+                                super.visitInsn(ISUB);   // on mute seulement l'occurrence ciblée
+                            } else {
+                                super.visitInsn(IADD);   // les autres restent inchangés
                             }
+
+                            // très important : on passe à l'occurrence suivante
+                            compteurIadd++;
                         } else {
-                            // Sinon on réécrit l’instruction identique (pas de mutation)
                             super.visitInsn(opcode);
                         }
                     }
                 };
             }
         };
+
         reader.accept(cv, ClassReader.EXPAND_FRAMES);
         return writer.toByteArray();
     }
 
     public static void main(String[] args) throws IOException {
-
-        /**
-         * On lit la classe Target compilée depuis le classpath de test
-         * Après `mvn test-compile`, Maven place les classes de test compilées dans :
-         *   target/test-classes/
-         */
         String res = "fr/univnantes/asm/Target.class";
 
-        // On récupère le .class et on lit tous les octets
         byte[] original = AsmIaddToIsubTransformer.class
                 .getClassLoader()
                 .getResourceAsStream(res)
                 .readAllBytes();
 
-        // On applique la transformation ASM : IADD -> ISUB
         int indexCible = 0;
-        byte[] mute = transformer(original, indexCible);
+        if (args.length > 0) {
+            indexCible = Integer.parseInt(args[0]);
+        }
 
-        /**
-         * On écrit la version mutée dans un dossier séparé :
-         *   target/asm-mutated/...
-         */
+        byte[] mute = transformer(original, indexCible);
+        System.out.println("Index ciblé pour la mutation : " + indexCible);
+
         Path outDir = Path.of("target/asm-mutated/fr/univnantes/asm");
         Files.createDirectories(outDir);
 
-        // Chemin complet du fichier .class muté
         Path outFile = outDir.resolve("Target.class");
-
-        // Écriture des octets mutés sur disque
         Files.write(outFile, mute);
 
-        // Messages d'information pour vérifier facilement
-        System.out.println("CA A MACRHE : classe mutée écrite ici : " + outFile.toAbsolutePath());
-        System.out.println("Avant : IADD (Target.main)");
-        System.out.println("Après mutation : IADD -> ISUB (classe générée dans target/asm-mutated)");
+        System.out.println("Pas d'erreurs : classe mutée écrite ici : " + outFile.toAbsolutePath());
     }
 }
