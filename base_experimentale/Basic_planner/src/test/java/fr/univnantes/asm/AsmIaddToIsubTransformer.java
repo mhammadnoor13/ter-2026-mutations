@@ -19,8 +19,8 @@ public class AsmIaddToIsubTransformer {
 
         ClassVisitor cv = new ClassVisitor(ASM9, writer) {
 
-            // nombre de IADD déjà vus dans toute la classe
-            private int compteurIadd = 0;
+            // compteur d'instructions déjà vus dans toute la classe
+            private int instructionIndex = 0;
 
             @Override
             public MethodVisitor visitMethod(int access, String name, String desc,
@@ -33,18 +33,29 @@ public class AsmIaddToIsubTransformer {
                     @Override
                     public void visitInsn(int opcode) {
                         if (opcode == IADD) {
-                            if (compteurIadd == indexCible) {
-                                super.visitInsn(ISUB);   // on mute seulement l'occurrence ciblée
-                            } else {
-                                super.visitInsn(IADD);   // les autres restent inchangés
-                            }
-
-                            // très important : on passe à l'occurrence suivante
-                            compteurIadd++;
-                        } else {
-                            super.visitInsn(opcode);
+                            System.out.println("IADD trouvé à instructionIndex = " + instructionIndex);
                         }
+                        if (opcode == IADD && instructionIndex==indexCible) {
+                            super.visitInsn(ISUB);   // on mute seulement l'occurrence ciblée
+                        } else {
+                            super.visitInsn(opcode);   // les autres restent inchangés
+                        }
+                        //on passe à l'occurrence suivante
+                        instructionIndex++;
                     }
+
+                    @Override
+                    public void visitVarInsn(int opcode, int varIndex) {
+                        instructionIndex++;
+                        super.visitVarInsn(opcode, varIndex);
+                    }
+
+                    @Override
+                    public void visitIntInsn(int opcode, int operand) {
+                        instructionIndex++;
+                        super.visitIntInsn(opcode, operand);
+                    }
+
                 };
             }
         };
