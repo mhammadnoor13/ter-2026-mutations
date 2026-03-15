@@ -180,24 +180,35 @@ public class MutationAnalyser {
         }
 
         String originalClassName = originalFile.getName().replace(".java", "");
-        String newClassName = originalClassName + "Mutable";
 
-        String newFilePath = filePath.replace(".java", "Mutable.java");
-        File newFile = new File(newFilePath);
+        String mutableClassName = originalClassName + "Mutable";
+        String observedClassName = originalClassName + "Observee";
+
+        String mutableFilePath = filePath.replace(".java", "Mutable.java");
+        String observedFilePath = filePath.replace(".java", "Observee.java");
+
+        File mutableFile = new File(mutableFilePath);
+        File observedFile = new File(observedFilePath);
 
         Pattern pattern = Pattern.compile("^\\s*([\\w<>]+)\\s+(\\w+)\\s*=.*;");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(originalFile));
-             BufferedWriter writer = new BufferedWriter(new FileWriter(newFile))) {
+             BufferedWriter mutableWriter = new BufferedWriter(new FileWriter(mutableFile));
+             BufferedWriter observedWriter = new BufferedWriter(new FileWriter(observedFile))) {
 
             String line;
 
             while ((line = reader.readLine()) != null) {
 
-                line = line.replaceAll("\\b" + originalClassName + "\\b", newClassName);
+                // Remplacement du nom de classe
+                String mutableLine = line.replaceAll("\\b" + originalClassName + "\\b", mutableClassName);
+                String observedLine = line.replaceAll("\\b" + originalClassName + "\\b", observedClassName);
 
-                writer.write(line);
-                writer.newLine();
+                mutableWriter.write(mutableLine);
+                mutableWriter.newLine();
+
+                observedWriter.write(observedLine);
+                observedWriter.newLine();
 
                 Matcher matcher = pattern.matcher(line);
 
@@ -205,13 +216,19 @@ public class MutationAnalyser {
 
                     String variableName = matcher.group(2);
 
-                    writer.write("MutationAnalyser.getInstance().addNewVariable("
-                            + variableName + ", \"" + variableName + "\");");
-                    writer.newLine();
+                    String probeLine = "MutationAnalyser.getInstance().addNewVariable("
+                            + variableName + ", \"" + variableName + "\");";
+
+                    mutableWriter.write(probeLine);
+                    mutableWriter.newLine();
+
+                    observedWriter.write(probeLine);
+                    observedWriter.newLine();
                 }
             }
 
-            System.out.println("Fichier modifié créé : " + newFilePath);
+            System.out.println("Fichier mutable créé : " + mutableFilePath);
+            System.out.println("Fichier observé créé : " + observedFilePath);
 
         } catch (IOException e) {
             e.printStackTrace();
