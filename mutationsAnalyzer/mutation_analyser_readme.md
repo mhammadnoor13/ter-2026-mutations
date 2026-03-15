@@ -50,7 +50,7 @@ vos assertions** :
 MutationAnalyser.getInstance().showSnapshotsInPopup();
 ```
 
-### Bonnes pratiques
+### Conseil
 
 Il est recommandé de réinitialiser `MutationAnalyser` avant chaque test
 afin d'éviter toute interférence entre les cas de test :
