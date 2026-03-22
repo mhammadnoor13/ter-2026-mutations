@@ -1,0 +1,5 @@
+# Created at 2026-03-22T23:38:49.882
+Boot Manifest-JAR contains absolute paths in classpath 'D:\Cedric\fac\M1\ter\ter-2026-mutations\analyse_rip_pit_descartes_jacoco\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+

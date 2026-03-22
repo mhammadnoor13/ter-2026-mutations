@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Calculator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">analyse_rip_pit_descartes_jacoco</a> &gt; <a href="index.source.html" class="el_package">com.example</a> &gt; <span class="el_source">Calculator.java</span></div><h1>Calculator.java</h1><pre class="source lang-java linenums">package com.example;
+
+/**
+ * Calculatrice simple — sert de cible pour l'analyse de mutation RIP.
+ *
+ * Méthodes intentionnellement variées pour illustrer les trois cas :
+ *   - add()     → test correct  : R ✓ I ✓ P ✓  (mutation tuée)
+ *   - multiply() → pas d'assertion : R ✓ I ✓ P ✗  (pseudo-tested)
+ *   - max()     → non appelé    : R ✗             (no_coverage)
+ *   - divide()  → entrées neutres: R ✓ I ✗         (partiellement testé)
+ */
+<span class="fc" id="L12">public class Calculator {</span>
+
+    /** Addition de deux entiers. */
+    public int add(int a, int b) {
+<span class="fc" id="L16">        return a + b;</span>
+    }
+
+    /** Multiplication de deux entiers. */
+    public int multiply(int a, int b) {
+<span class="fc" id="L21">        return a * b;</span>
+    }
+
+    /** Maximum de deux entiers. */
+    public int max(int a, int b) {
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        if (a &gt; b) {</span>
+<span class="nc" id="L27">            return a;</span>
+        }
+<span class="nc" id="L29">        return b;</span>
+    }
+
+    /** Division entière — lève une exception si diviseur nul. */
+    public int divide(int a, int b) {
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (b == 0) {</span>
+<span class="fc" id="L35">            throw new IllegalArgumentException(&quot;Division par zéro&quot;);</span>
+        }
+<span class="fc" id="L37">        return a / b;</span>
+    }
+
+    /** Vérifie si un nombre est positif (strictement &gt; 0). */
+    public boolean isPositive(int n) {
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        return n &gt; 0;</span>
+    }
+
+    /** Calcule la factorielle (n &gt;= 0). */
+    public long factorial(int n) {
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        if (n &lt; 0) {</span>
+<span class="fc" id="L48">            throw new IllegalArgumentException(&quot;Entrée négative&quot;);</span>
+        }
+<span class="fc bfc" id="L50" title="All 2 branches covered.">        if (n == 0) {</span>
+<span class="fc" id="L51">            return 1L;</span>
+        }
+<span class="fc" id="L53">        long result = 1L;</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">        for (int i = 1; i &lt;= n; i++) {</span>
+<span class="fc" id="L55">            result *= i;</span>
+        }
+<span class="fc" id="L57">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

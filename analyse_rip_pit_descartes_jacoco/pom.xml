@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.example</groupId>
+  <artifactId>analyse_rip_pit_descartes_jacoco</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!-- Versions des outils -->
+    <junit.version>5.10.2</junit.version>
+    <pitest.version>1.15.3</pitest.version>
+    <pitest-junit5.version>1.2.1</pitest-junit5.version>
+    <descartes.version>1.3.3</descartes.version>
+    <jacoco.version>0.8.12</jacoco.version>
+  </properties>
+
+  <!-- ═══════════════════════════════════════════════
+       DÉPENDANCES
+  ═══════════════════════════════════════════════ -->
+  <dependencies>
+    <!-- JUnit 5 -->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+
+      <!-- ─────────────────────────────────────────
+           Surefire : exécute les tests JUnit 5
+      ───────────────────────────────────────── -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+      </plugin>
+
+      <!-- ─────────────────────────────────────────
+           JaCoCo — diagnostique R (couverture)
+           Rapport : target/site/jacoco/index.html
+           Interprétation RIP :
+             ligne verte  → R ✓ (le test atteint ce code)
+             ligne rouge  → R ✗ (no_coverage)
+             branche jaune → R partiel
+      ───────────────────────────────────────── -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${jacoco.version}</version>
+        <executions>
+          <!-- Injecte l'agent JaCoCo avant les tests -->
+          <execution>
+            <id>jacoco-prepare</id>
+            <goals><goal>prepare-agent</goal></goals>
+          </execution>
+          <!-- Génère le rapport HTML après les tests -->
+          <execution>
+            <id>jacoco-report</id>
+            <phase>test</phase>
+            <goals><goal>report</goal></goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- ─────────────────────────────────────────
+           PITest + Descartes — diagnostique I et P
+           Rapport : target/pit-reports/index.html
+                     target/pit-reports/mutations.json
+
+           Statuts Descartes → diagnostic RIP :
+             no_coverage    → R ✗  (JaCoCo confirme)
+             pseudo-tested  → R ✓ I ✓ P ✗  (appel sans assertion)
+             partially-tested→ R ✓ I ~ P ~ (tests incomplets)
+             survived       → R ✓ I ✗      (entrées neutres)
+             killed         → R ✓ I ✓ P ✓  (mutation détectée)
+      ───────────────────────────────────────── -->
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <version>${pitest.version}</version>
+
+        <dependencies>
+          <!-- Support JUnit 5 -->
+          <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>${pitest-junit5.version}</version>
+          </dependency>
+          <!-- Moteur Descartes (remplace les opérateurs classiques) -->
+          <dependency>
+            <groupId>eu.stamp-project</groupId>
+            <artifactId>descartes</artifactId>
+            <version>${descartes.version}</version>
+          </dependency>
+        </dependencies>
+
+        <configuration>
+          <!-- Utilise Descartes au lieu du moteur PIT standard -->
+          <mutationEngine>descartes</mutationEngine>
+
+          <!-- Cibles -->
+          <targetClasses>
+            <param>com.example.*</param>
+          </targetClasses>
+          <targetTests>
+            <param>com.example.*</param>
+          </targetTests>
+
+          <!--
+            Opérateurs Descartes (extreme mutation) :
+            Chaque opérateur remplace le CORPS ENTIER d'une méthode
+            par une valeur constante, ce qui force R, I et P à être
+            testés indépendamment.
+
+            void    → supprime le corps (teste R + P sur effets de bord)
+            null    → retourne null     (teste I : NullPointerException ?)
+            0       → retourne 0        (teste I pour int/long)
+            1       → retourne 1        (valeur neutre alternative)
+            true    → retourne true     (teste I pour boolean)
+            false   → retourne false
+            empty   → retourne liste/tableau vide
+          -->
+          <mutators>
+            <mutator>void</mutator>
+            <mutator>null</mutator>
+            <mutator>0</mutator>
+            <mutator>1</mutator>
+            <mutator>true</mutator>
+            <mutator>false</mutator>
+            <mutator>empty</mutator>
+          </mutators>
+
+          <!-- Formats de sortie -->
+          <outputFormats>
+            <outputFormat>HTML</outputFormat>
+            <outputFormat>JSON</outputFormat>
+          </outputFormats>
+
+          <!-- Exporte la couverture ligne pour croiser avec JaCoCo -->
+          <exportLineCoverage>true</exportLineCoverage>
+
+          <!-- Un seul dossier de rapport (pas de timestamp) -->
+          <timestampedReports>false</timestampedReports>
+
+          <!-- Threads parallèles pour accélérer l'analyse -->
+          <threads>2</threads>
+
+          <!-- Seuil d'échec : le build échoue si score < 60% -->
+          <mutationThreshold>60</mutationThreshold>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>

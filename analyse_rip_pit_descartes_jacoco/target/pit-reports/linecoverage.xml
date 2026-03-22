@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage>
+<block classname='com.example.Calculator' method='multiply(II)I' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:multiply_appelSansAssertion()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='setUp()V' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_avecNegatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxPositifs()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxZeros()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_casNeutre()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_exceptionSiZero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_cinq()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_negatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_un()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_zero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombreNegatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombrePositif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_zero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:multiply_appelSansAssertion()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='&lt;init&gt;()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_avecNegatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxPositifs()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxZeros()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_casNeutre()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_exceptionSiZero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_cinq()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_negatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_un()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_zero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombreNegatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombrePositif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_zero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:multiply_appelSansAssertion()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='&lt;init&gt;()V' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_avecNegatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxPositifs()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxZeros()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_casNeutre()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_exceptionSiZero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_cinq()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_negatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_un()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_zero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombreNegatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombrePositif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_zero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:multiply_appelSansAssertion()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='setUp()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_avecNegatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxPositifs()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxZeros()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_casNeutre()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_exceptionSiZero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_cinq()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_negatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_un()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_zero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombreNegatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombrePositif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_zero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:multiply_appelSansAssertion()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='multiply_appelSansAssertion()V' number='2'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:multiply_appelSansAssertion()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='&lt;init&gt;()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_avecNegatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxPositifs()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxZeros()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_casNeutre()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_exceptionSiZero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_cinq()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_negatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_un()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_zero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombreNegatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombrePositif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_zero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:multiply_appelSansAssertion()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='multiply_appelSansAssertion()V' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:multiply_appelSansAssertion()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='&lt;init&gt;()V' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_avecNegatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxPositifs()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxZeros()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_casNeutre()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_exceptionSiZero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_cinq()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_negatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_un()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_zero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombreNegatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombrePositif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_zero()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:multiply_appelSansAssertion()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='multiply_appelSansAssertion()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:multiply_appelSansAssertion()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='isPositive(I)Z' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombreNegatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombrePositif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_zero()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='isPositive_nombreNegatif()V' number='2'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombreNegatif()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='isPositive_nombreNegatif()V' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombreNegatif()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='isPositive_nombreNegatif()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombreNegatif()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='isPositive(I)Z' number='2'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombreNegatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_zero()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='isPositive(I)Z' number='3'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombreNegatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombrePositif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_zero()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='factorial(I)J' number='2'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_negatif()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='factorial(I)J' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_negatif()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='factorial(I)J' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_cinq()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_negatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_un()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_zero()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='lambda$factorial_negatif$0()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_negatif()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='factorial_negatif()V' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_negatif()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='factorial_negatif()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_negatif()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='divide_exceptionSiZero()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_exceptionSiZero()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='divide_exceptionSiZero()V' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_exceptionSiZero()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='divide(II)I' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_exceptionSiZero()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='divide(II)I' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_casNeutre()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_exceptionSiZero()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='divide(II)I' number='2'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_exceptionSiZero()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='lambda$divide_exceptionSiZero$0()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_exceptionSiZero()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='add_avecNegatif()V' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_avecNegatif()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='add_avecNegatif()V' number='2'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_avecNegatif()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='add_avecNegatif()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_avecNegatif()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='add(II)I' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_avecNegatif()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxPositifs()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxZeros()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='isPositive_nombrePositif()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombrePositif()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='isPositive(I)Z' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombrePositif()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='isPositive_nombrePositif()V' number='2'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombrePositif()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='isPositive_nombrePositif()V' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_nombrePositif()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='add_deuxZeros()V' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxZeros()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='add_deuxZeros()V' number='2'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxZeros()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='add_deuxZeros()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxZeros()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='isPositive_zero()V' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_zero()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='isPositive_zero()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_zero()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='isPositive_zero()V' number='2'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:isPositive_zero()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='factorial(I)J' number='3'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_cinq()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_un()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_zero()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='factorial_cinq()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_cinq()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='factorial_cinq()V' number='2'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_cinq()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='factorial_cinq()V' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_cinq()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='factorial(I)J' number='7'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_cinq()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_un()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='factorial(I)J' number='6'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_cinq()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_un()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='factorial(I)J' number='5'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_cinq()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_un()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='factorial(I)J' number='8'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_cinq()]'/>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_un()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='factorial(I)J' number='4'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_zero()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='factorial_zero()V' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_zero()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='factorial_zero()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_zero()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='factorial_zero()V' number='2'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_zero()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='divide_casNeutre()V' number='2'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_casNeutre()]'/>
+</tests>
+</block>
+<block classname='com.example.Calculator' method='divide(II)I' number='3'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_casNeutre()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='divide_casNeutre()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_casNeutre()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='divide_casNeutre()V' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:divide_casNeutre()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='add_deuxPositifs()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxPositifs()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='add_deuxPositifs()V' number='2'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxPositifs()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='add_deuxPositifs()V' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:add_deuxPositifs()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='factorial_un()V' number='2'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_un()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='factorial_un()V' number='1'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_un()]'/>
+</tests>
+</block>
+<block classname='com.example.CalculatorTest' method='factorial_un()V' number='0'><tests>
+<test name='com.example.CalculatorTest.[engine:junit-jupiter]/[class:com.example.CalculatorTest]/[method:factorial_un()]'/>
+</tests>
+</block>
+</coverage>
