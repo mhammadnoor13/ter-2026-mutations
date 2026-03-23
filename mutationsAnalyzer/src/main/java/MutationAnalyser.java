@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
@@ -15,6 +16,10 @@ public class MutationAnalyser {
     private final List<String> allVariableNames;
     private final List<List<String>> allSnapshots;
 
+    private final List<Object> allVariablesObservee;
+    private final List<String> allVariableNamesObservee;
+    private final List<List<String>> allSnapshotsObservee;
+
     private static MutationAnalyser instance;
 
     private int mutationCounter = 0;
@@ -23,6 +28,10 @@ public class MutationAnalyser {
         this.allVariables = new ArrayList<>();
         this.allVariableNames = new ArrayList<>();
         this.allSnapshots = new ArrayList<>();
+
+        this.allVariablesObservee = new ArrayList<>();
+        this.allVariableNamesObservee = new ArrayList<>();
+        this.allSnapshotsObservee = new ArrayList<>();
     }
 
     public static MutationAnalyser getInstance() {
@@ -37,11 +46,17 @@ public class MutationAnalyser {
         allVariableNames.clear();
         allSnapshots.clear();
 
+        allVariablesObservee.clear();
+        allVariableNamesObservee.clear();
+        allSnapshotsObservee.clear();
+
         mutationCounter = 0;
 
         int initialValue = 1;
         allVariables.add(initialValue);
         allVariableNames.add("N°");
+        allVariablesObservee.add(initialValue);
+        allVariableNamesObservee.add("N°");
 
     }
 
@@ -59,6 +74,20 @@ public class MutationAnalyser {
         takeSnapshot();
     }
 
+    public void addNewVariableObservee(Object obj, String varName) {
+
+        int index = allVariableNamesObservee.indexOf(varName);
+
+        if (index != -1) {
+            allVariablesObservee.set(index, obj);
+        } else {
+            allVariablesObservee.add(obj);
+            allVariableNamesObservee.add(varName);
+        }
+
+        takeSnapshotObservee();
+    }
+
     public void addMutation(String mutationName) {
 
         if (allVariables.contains(mutationName)) return;
@@ -68,8 +97,6 @@ public class MutationAnalyser {
 
         allVariables.add(mutationName);
         allVariableNames.add(varName);
-
-        takeSnapshot();
     }
 
     public void printAllVariableValues() {
@@ -80,7 +107,20 @@ public class MutationAnalyser {
         }
     }
 
-    // --- Nouvelle méthode ---
+    public void printAllSnapshotsObservee() {
+
+        for (int i = 0; i < allSnapshotsObservee.size(); i++) {
+            System.out.println("Snapshot Observé " + (i + 1) + " :");
+            List<String> snapshot = allSnapshotsObservee.get(i);
+
+            for (String line : snapshot) {
+                System.out.println(line);
+            }
+
+            System.out.println("--------------------");
+        }
+    }
+
     public void takeSnapshot() {
         List<String> snapshot = new ArrayList<>();
 
@@ -92,6 +132,19 @@ public class MutationAnalyser {
 
         allSnapshots.add(snapshot);
         allVariables.set(0,(int)(allVariables.get(0)) + 1);
+    }
+
+    public void takeSnapshotObservee() {
+        List<String> snapshot = new ArrayList<>();
+
+        for (int i = 0; i < allVariablesObservee.size(); i++) {
+            String name = allVariableNamesObservee.get(i);
+            Object value = allVariablesObservee.get(i);
+            snapshot.add(name + " = " + (value != null ? value.toString() : "null"));
+        }
+
+        allSnapshotsObservee.add(snapshot);
+        allVariablesObservee.set(0, (int)(allVariablesObservee.get(0)) + 1);
     }
 
     // --- Nouvelle méthode ---
@@ -111,51 +164,114 @@ public class MutationAnalyser {
 
     public void showSnapshotsInPopup() {
 
-        if (allSnapshots.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Aucun snapshot disponible.");
+        if (allSnapshots.isEmpty() || allSnapshotsObservee.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Snapshots insuffisants pour comparaison.");
             return;
         }
 
-        // Colonnes = noms des variables
-        String[] columnNames = allVariableNames.toArray(new String[0]);
+        // 🔥 Union des variables
+        List<String> allVars = new ArrayList<>();
+        for (String v : allVariableNames) if (!allVars.contains(v)) allVars.add(v);
+        for (String v : allVariableNamesObservee) if (!allVars.contains(v)) allVars.add(v);
 
-        // Données du tableau
-        String[][] data = new String[allSnapshots.size()][columnNames.length];
+        // Colonnes : var(M) + var(O)
+        List<String> columns = new ArrayList<>();
+        for (String v : allVars) {
+            columns.add(v + " (M)");
+            columns.add(v + " (O)");
+        }
 
-        for (int i = 0; i < allSnapshots.size(); i++) {
-            List<String> snapshot = allSnapshots.get(i);
+        String[] columnNames = columns.toArray(new String[0]);
 
-            for (int j = 0; j < columnNames.length; j++) {
+        int rowCount = Math.max(allSnapshots.size(), allSnapshotsObservee.size());
+        String[][] data = new String[rowCount][columnNames.length];
 
-                String variableName = columnNames[j];
-                String valueFound = "";
+        for (int i = 0; i < rowCount; i++) {
 
-                for (String line : snapshot) {
-                    if (line.startsWith(variableName + " = ")) {
-                        valueFound = line.substring((variableName + " = ").length());
-                        break;
-                    }
-                }
+            List<String> snapM = i < allSnapshots.size() ? allSnapshots.get(i) : new ArrayList<>();
+            List<String> snapO = i < allSnapshotsObservee.size() ? allSnapshotsObservee.get(i) : new ArrayList<>();
 
-                data[i][j] = valueFound;
+            int colIndex = 0;
+
+            for (String var : allVars) {
+
+                String valM = extractValue(snapM, var);
+                String valO = extractValue(snapO, var);
+
+                data[i][colIndex++] = valM;
+                data[i][colIndex++] = valO;
             }
         }
 
         DefaultTableModel model = new DefaultTableModel(data, columnNames);
         JTable table = new JTable(model);
+
+        // 🎨 Renderer SAFE
+        table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                                                           boolean isSelected, boolean hasFocus,
+                                                           int row, int col) {
+
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, col);
+
+                // On ne compare que les paires (M,O)
+                if (col % 2 == 0) {
+                    // colonne M → comparer avec O (col+1)
+                    if (col + 1 < table.getColumnCount()) {
+
+                        String valM = (String) table.getValueAt(row, col);
+                        String valO = (String) table.getValueAt(row, col + 1);
+
+                        if (valM != null && valO != null && !valM.equals(valO)) {
+                            c.setBackground(Color.PINK);
+                        } else {
+                            c.setBackground(Color.WHITE);
+                        }
+                    }
+
+                } else {
+                    // colonne O → comparer avec M (col-1)
+                    if (col - 1 >= 0) {
+
+                        String valO = (String) table.getValueAt(row, col);
+                        String valM = (String) table.getValueAt(row, col - 1);
+
+                        if (valM != null && valO != null && !valM.equals(valO)) {
+                            c.setBackground(Color.PINK);
+                        } else {
+                            c.setBackground(Color.WHITE);
+                        }
+                    }
+                }
+
+                return c;
+            }
+        });
+
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setPreferredSize(new Dimension(800, 400));
+        scrollPane.setPreferredSize(new Dimension(1000, 500));
 
-        // ---- Utilisation d'un JDialog modal pour bloquer ----
         JDialog dialog = new JDialog();
-        dialog.setTitle("Evolution des variables");
-        dialog.setModal(true); // ⚡ bloque l'exécution tant que la fenêtre n'est pas fermée
+        dialog.setTitle("Comparaison Mutable vs Observée");
+        dialog.setModal(true);
         dialog.add(scrollPane);
         dialog.pack();
         dialog.setLocationRelativeTo(null);
-        dialog.setVisible(true); // ici le code reste bloqué jusqu'à fermeture
+        dialog.setVisible(true);
+    }
+
+    private String extractValue(List<String> snapshot, String variableName) {
+
+        for (String line : snapshot) {
+            if (line.startsWith(variableName + " = ")) {
+                return line.substring((variableName + " = ").length());
+            }
+        }
+        return "";
     }
 
 
@@ -216,13 +332,18 @@ public class MutationAnalyser {
 
                     String variableName = matcher.group(2);
 
-                    String probeLine = "MutationAnalyser.getInstance().addNewVariable("
+                    // --- SONDE MUTABLE ---
+                    String probeMutable = "MutationAnalyser.getInstance().addNewVariable("
                             + variableName + ", \"" + variableName + "\");";
 
-                    mutableWriter.write(probeLine);
+                    // --- SONDE OBSERVEE ---
+                    String probeObservee = "MutationAnalyser.getInstance().addNewVariableObservee("
+                            + variableName + ", \"" + variableName + "\");";
+
+                    mutableWriter.write(probeMutable);
                     mutableWriter.newLine();
 
-                    observedWriter.write(probeLine);
+                    observedWriter.write(probeObservee);
                     observedWriter.newLine();
                 }
             }
