@@ -32,15 +32,50 @@ public class AsmIaddToIsubTransformer {
 
                     @Override
                     public void visitInsn(int opcode) {
+                        //cas mutation
                         if (opcode == IADD) {
                             System.out.println("IADD trouvé à instructionIndex = " + instructionIndex);
-                        }
-                        if (opcode == IADD && instructionIndex==indexCible) {
-                            super.visitInsn(ISUB);   // on mute seulement l'occurrence ciblée
-                        } else {
-                            super.visitInsn(opcode);   // les autres restent inchangés
+
+                            if (instructionIndex == indexCible) {
+
+                                // on remplace IADD par ISUB
+                                super.visitInsn(ISUB);
+
+                                // on duplique le résultat pour le logger
+                                super.visitInsn(DUP);
+
+                                // appel TraceLogger.logMutation(int)
+                                super.visitMethodInsn(
+                                        INVOKESTATIC,
+                                        "fr/univnantes/asm/TraceLogger",
+                                        "logMutation",
+                                        "(I)V",
+                                        false
+                                );
+                            } else {
+                                super.visitInsn(IADD);
+                            }
+                            instructionIndex++;
+                            return;
                         }
                         //on passe à l'occurrence suivante
+
+                        // cas retour
+                        if (opcode == IRETURN) {
+                            super.visitInsn(DUP); // duplique la valeur sur la pile
+                            super.visitMethodInsn(
+                                    INVOKESTATIC,
+                                    "fr/univnantes/asm/TraceLogger",
+                                    "logReturn",
+                                    "(I)V",
+                                    false
+                            );
+                            super.visitInsn(IRETURN);
+                            instructionIndex++;
+                            return;
+                        }
+
+                        super.visitInsn(opcode);
                         instructionIndex++;
                     }
 
@@ -55,7 +90,6 @@ public class AsmIaddToIsubTransformer {
                         instructionIndex++;
                         super.visitIntInsn(opcode, operand);
                     }
-
                 };
             }
         };
