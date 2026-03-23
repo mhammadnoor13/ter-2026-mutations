@@ -316,3 +316,27 @@ Cette étape est utile pour visualiser la propagation car :
 - si rien ne change au point muté, alors il n’y a pas d’infection observable
 
 J’ai donc maintenant un premier arangement simple mais fonctionnelle pour observer la phase P au niveau bytecode.
+
+
+Trois classes :
+- RunOriginalClass.java : version normale
+- RunOriginalTraceClass.java : version normale avec trace 
+- RunMutatedTraceClass.java : version mutée avec traces
+
+Les traces sont ajoutées au bytecode en injectant des appels à TraceLogger avec ASM.
+
+au point de mutation :
+on remplace IADD par ISUB, puis on fait DUP + logMutation
+au retour :
+on intercepte IRETURN, puis on fait DUP + logReturn + IRETURN
+
+DUP est essentiel car il permet de logger une valeur sans la faire disparaître de la pile, donc sans casser l’exécution normale.
+
+exemple :
+
+    iadd
+devient
+
+    isub
+    dup
+    invokestatic TraceLogger.logMutation(int)
