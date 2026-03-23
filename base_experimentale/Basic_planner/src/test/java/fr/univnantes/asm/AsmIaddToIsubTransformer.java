@@ -13,7 +13,7 @@ import static org.objectweb.asm.Opcodes.*;
 
 public class AsmIaddToIsubTransformer {
 
-    public static byte[] transformer(byte[] classBytes, int indexCible) {
+    public static byte[] transformer(byte[] classBytes, int indexCible, boolean mutate) {
         ClassReader reader = new ClassReader(classBytes);
         ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
 
@@ -36,7 +36,7 @@ public class AsmIaddToIsubTransformer {
                         if (opcode == IADD) {
                             System.out.println("IADD trouvé à instructionIndex = " + instructionIndex);
 
-                            if (instructionIndex == indexCible) {
+                            if (mutate && instructionIndex == indexCible) {
 
                                 // on remplace IADD par ISUB
                                 super.visitInsn(ISUB);
@@ -111,15 +111,25 @@ public class AsmIaddToIsubTransformer {
             indexCible = Integer.parseInt(args[0]);
         }
 
-        byte[] mute = transformer(original, indexCible);
+        // version muté tracée
+        byte[] mutatedTrace = transformer(original, indexCible, true);
         System.out.println("Index ciblé pour la mutation : " + indexCible);
+
+        // version originale tracée
+        byte[] originalTrace = transformer(original, indexCible, false);
 
         Path outDir = Path.of("target/asm-mutated/fr/univnantes/asm");
         Files.createDirectories(outDir);
 
-        Path outFile = outDir.resolve("Target.class");
-        Files.write(outFile, mute);
+        // mutant traces
+        Path mutatedFile = outDir.resolve("Target.class");
+        Files.write(mutatedFile, mutatedTrace);
 
-        System.out.println("Pas d'erreurs : classe mutée écrite ici : " + outFile.toAbsolutePath());
+        // original traces
+        Path originalFile = outDir.resolve("TargetOriginal.class");
+        Files.write(originalFile, originalTrace);
+
+        System.out.println("Mutant tracé : " + mutatedFile.toAbsolutePath());
+        System.out.println("Original tracé : " + originalFile.toAbsolutePath());
     }
 }

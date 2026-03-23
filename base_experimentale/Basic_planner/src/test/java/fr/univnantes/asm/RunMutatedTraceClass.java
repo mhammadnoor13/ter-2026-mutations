@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class RunMutatedTarget {
+public class RunMutatedTraceClass {
 
     static class ByteArrayLoader extends ClassLoader {
 
@@ -22,7 +22,7 @@ public class RunMutatedTarget {
         byte[] mutatedBytes = Files.readAllBytes(p);
 
         // On récupère le classloader normal du programme
-        ClassLoader parentLoader = RunMutatedTarget.class.getClassLoader();
+        ClassLoader parentLoader = RunMutatedTraceClass.class.getClassLoader();
 
         // On force le chargement de TraceLogger avec ce loader
         Class.forName("fr.univnantes.asm.TraceLogger", true, parentLoader);
