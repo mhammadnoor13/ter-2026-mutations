@@ -298,3 +298,21 @@ Cette expérimentation reproduit le principe fondamental de PIT :
 -> Le mutant est chargé dynamiquement et exécuté de manière isolée.
 
 Ce prototype correspond à une version simplifiée du fonctionnement interne de PIT, sans la gestion des identifiants de mutation ni la sélection des tests.
+
+
+*Visualisation du P*
+
+Aujourd’hui, j’ai commencé l’étude de la phase P (Propagation) du modèle RIPR en travaillant sur un seul opérateur mutant : IADD -> ISUB. J’ai gardé mon prototype ASM capable de muter une instruction précise par index, puis j’ai ajouté un arrangement du bytecode pour insérer des traces d’exécution.
+
+J’ai créé une classe TraceLogger et j’ai modifié le transformer ASM pour tracer :
+- la valeur produite juste après l’instruction mutée
+- la valeur retournée par la méthode
+
+L’objectif est de comparer ce qui se passe localement au point de mutation et ce qui est finalement observable à la sortie. Cela permet de voir si l’infection introduite par le mutant se propage réellement jusqu’au résultat final.
+
+Cette étape est utile pour visualiser la propagation car :
+- si la valeur mutée et la valeur retournée sont toutes les deux différentes, alors la propagation a réussi 
+- si la valeur mutée change mais pas la valeur retournée, alors la propagation échoue 
+- si rien ne change au point muté, alors il n’y a pas d’infection observable
+
+J’ai donc maintenant un premier arangement simple mais fonctionnelle pour observer la phase P au niveau bytecode.

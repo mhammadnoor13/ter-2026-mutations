@@ -13,7 +13,7 @@ import static org.objectweb.asm.Opcodes.*;
 
 public class AsmIaddToIsubTransformer {
 
-    public static byte[] transformer(byte[] classBytes, int indexCible) {
+    public static byte[] transformer(byte[] classBytes, int indexCible, boolean mutate) {
         ClassReader reader = new ClassReader(classBytes);
         ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
 
@@ -32,15 +32,50 @@ public class AsmIaddToIsubTransformer {
 
                     @Override
                     public void visitInsn(int opcode) {
+                        //cas mutation
                         if (opcode == IADD) {
                             System.out.println("IADD trouvé à instructionIndex = " + instructionIndex);
-                        }
-                        if (opcode == IADD && instructionIndex==indexCible) {
-                            super.visitInsn(ISUB);   // on mute seulement l'occurrence ciblée
-                        } else {
-                            super.visitInsn(opcode);   // les autres restent inchangés
+
+                            if (mutate && instructionIndex == indexCible) {
+
+                                // on remplace IADD par ISUB
+                                super.visitInsn(ISUB);
+
+                                // on duplique le résultat pour le logger
+                                super.visitInsn(DUP);
+
+                                // appel TraceLogger.logMutation(int)
+                                super.visitMethodInsn(
+                                        INVOKESTATIC,
+                                        "fr/univnantes/asm/TraceLogger",
+                                        "logMutation",
+                                        "(I)V",
+                                        false
+                                );
+                            } else {
+                                super.visitInsn(IADD);
+                            }
+                            instructionIndex++;
+                            return;
                         }
                         //on passe à l'occurrence suivante
+
+                        // cas retour
+                        if (opcode == IRETURN) {
+                            super.visitInsn(DUP); // duplique la valeur sur la pile
+                            super.visitMethodInsn(
+                                    INVOKESTATIC,
+                                    "fr/univnantes/asm/TraceLogger",
+                                    "logReturn",
+                                    "(I)V",
+                                    false
+                            );
+                            super.visitInsn(IRETURN);
+                            instructionIndex++;
+                            return;
+                        }
+
+                        super.visitInsn(opcode);
                         instructionIndex++;
                     }
 
@@ -55,7 +90,6 @@ public class AsmIaddToIsubTransformer {
                         instructionIndex++;
                         super.visitIntInsn(opcode, operand);
                     }
-
                 };
             }
         };
@@ -77,15 +111,25 @@ public class AsmIaddToIsubTransformer {
             indexCible = Integer.parseInt(args[0]);
         }
 
-        byte[] mute = transformer(original, indexCible);
+        // version muté tracée
+        byte[] mutatedTrace = transformer(original, indexCible, true);
         System.out.println("Index ciblé pour la mutation : " + indexCible);
+
+        // version originale tracée
+        byte[] originalTrace = transformer(original, indexCible, false);
 
         Path outDir = Path.of("target/asm-mutated/fr/univnantes/asm");
         Files.createDirectories(outDir);
 
-        Path outFile = outDir.resolve("Target.class");
-        Files.write(outFile, mute);
+        // mutant traces
+        Path mutatedFile = outDir.resolve("Target.class");
+        Files.write(mutatedFile, mutatedTrace);
 
-        System.out.println("Pas d'erreurs : classe mutée écrite ici : " + outFile.toAbsolutePath());
+        // original traces
+        Path originalFile = outDir.resolve("TargetOriginal.class");
+        Files.write(originalFile, originalTrace);
+
+        System.out.println("Mutant tracé : " + mutatedFile.toAbsolutePath());
+        System.out.println("Original tracé : " + originalFile.toAbsolutePath());
     }
 }
