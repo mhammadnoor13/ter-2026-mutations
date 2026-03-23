@@ -38,7 +38,7 @@ def is_not_empty(value):
     
     return bool(value) and value != "/"
 
-def determine_ripr_status(mutant):
+def determine_ripo_status(mutant):
     """
     Détermine les statuts Reachability, Infection, Propagation, Revealability pour un mutant donné.
     
@@ -49,16 +49,16 @@ def determine_ripr_status(mutant):
     reach = is_not_empty(mutant.get("coveringTests"))  # Si le test couvre la mutation, elle est atteinte
     infect = is_not_empty(mutant.get("succeedingTests"))  # Si des tests réussissent, la mutation a infecté l'exécution
     propagate = is_not_empty(mutant.get("killingTests"))  # Si un test tue la mutation, elle est propagée
-    revealability = is_not_empty(mutant.get("killingTests"))  # A changer car la matrice PIT ne permet d'avoir le Realability proprement
+    oracle = is_not_empty(mutant.get("killingTests"))  # A changer car la matrice PIT ne permet d'avoir le Realability proprement
 
     return {
         # "R": "✔️" if reach else "❌",
         # "I": "✔️" if infect else "❌",
         # "P": "✔️" if propagate else "❌"
-        "Rch": "OK" if reach else "KO",
-        "Inf": "OK" if infect else "KO",
-        "Prp": "OK" if propagate else "KO",
-        "Rvl": "OK" if revealability else "KO"
+        "R": "OK" if reach else "KO",
+        "I": "OK" if infect else "KO",
+        "P": "OK" if propagate else "KO",
+        "O": "OK" if oracle else "KO"
     }
 
 def print_matrix():
@@ -97,7 +97,7 @@ def matrixToJSON():
             else:
                 actual[subchild.tag] = subchild.text if subchild.text else "/"
 
-        actual["RIPR"] = determine_ripr_status(actual)
+        actual["RIPO"] = determine_ripo_status(actual)
         tab.append(actual)
     return tab
 
