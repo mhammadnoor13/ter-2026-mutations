@@ -306,7 +306,8 @@ public class MutationAnalyser {
         File mutableFile = new File(mutableFilePath);
         File observedFile = new File(observedFilePath);
 
-        Pattern pattern = Pattern.compile("^\\s*([\\w<>]+)\\s+(\\w+)\\s*=.*;");
+        Pattern varPattern = Pattern.compile("^\\s*([\\w<>]+)\\s+(\\w+)\\s*=.*;");
+        Pattern returnPattern = Pattern.compile("\\breturn\\b");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(originalFile));
              BufferedWriter mutableWriter = new BufferedWriter(new FileWriter(mutableFile));
@@ -320,23 +321,42 @@ public class MutationAnalyser {
                 String mutableLine = line.replaceAll("\\b" + originalClassName + "\\b", mutableClassName);
                 String observedLine = line.replaceAll("\\b" + originalClassName + "\\b", observedClassName);
 
+                // --- DETECTION RETURN ---
+                Matcher returnMatcher = returnPattern.matcher(line);
+
+                if (returnMatcher.find()) {
+
+                    // 🔥 injecter snapshot AVANT le return
+
+                    String indent = line.substring(0, line.indexOf("return"));
+
+                    String snapMutable = indent + "MutationAnalyser.getInstance().takeSnapshot();";
+                    String snapObservee = indent + "MutationAnalyser.getInstance().takeSnapshotObservee();";
+
+                    mutableWriter.write(snapMutable);
+                    mutableWriter.newLine();
+
+                    observedWriter.write(snapObservee);
+                    observedWriter.newLine();
+                }
+
+                // écrire la ligne originale modifiée
                 mutableWriter.write(mutableLine);
                 mutableWriter.newLine();
 
                 observedWriter.write(observedLine);
                 observedWriter.newLine();
 
-                Matcher matcher = pattern.matcher(line);
+                // --- DETECTION VARIABLES ---
+                Matcher matcher = varPattern.matcher(line);
 
                 if (matcher.find()) {
 
                     String variableName = matcher.group(2);
 
-                    // --- SONDE MUTABLE ---
                     String probeMutable = "MutationAnalyser.getInstance().addNewVariable("
                             + variableName + ", \"" + variableName + "\");";
 
-                    // --- SONDE OBSERVEE ---
                     String probeObservee = "MutationAnalyser.getInstance().addNewVariableObservee("
                             + variableName + ", \"" + variableName + "\");";
 
