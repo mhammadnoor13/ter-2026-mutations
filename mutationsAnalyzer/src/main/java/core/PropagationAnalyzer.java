@@ -5,7 +5,6 @@ import java.util.*;
 public class PropagationAnalyzer {
 
 
-
     public List<Set<String>> computeInfectedSets() {
         MutationAnalyser mutationAnalyser = MutationAnalyser.getInstance();
 
@@ -14,7 +13,7 @@ public class PropagationAnalyzer {
 
         List<Set<String>> infectedSets = new ArrayList<>();
 
-        int maxSnapshots = Math.max(snapShotsO.size(), snapShotsM.size());
+        int maxSnapshots = Math.min(snapShotsO.size(), snapShotsM.size());
 
         for (int i = 0; i < maxSnapshots; i++) {
 
@@ -69,6 +68,13 @@ public class PropagationAnalyzer {
                 }
                 else if (before && !after) {
                     System.out.println(var + " → ELIMINATION");
+
+                    EliminationLogger.getInstance().logElimination(
+                            i+1,
+                            var,
+                            previous,
+                            current
+                    );
                 }
                 else if (before && after) {
                     System.out.println(var + " → PERSISTENCE");

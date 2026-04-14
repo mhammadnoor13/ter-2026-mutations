@@ -22,9 +22,16 @@ public class MutationAnalyser {
     private final List<String> allVariableNamesObservee;
     private final List<List<String>> allSnapshotsObservee;
 
+
     private static MutationAnalyser instance;
 
     private int mutationCounter = 0;
+
+    private static final String SUBJECTS_DIR =
+            "mutationsAnalyzer/src/main/java/experiment/subjects";
+
+    private static final String INSTRUMENTED_DIR =
+            "mutationsAnalyzer/src/main/java/experiment/instrumented";
 
     private MutationAnalyser() {
         this.allVariables = new ArrayList<>();
@@ -285,37 +292,35 @@ public class MutationAnalyser {
         return "";
     }
 
+    public static void instrumentAllSubjects(){
+        File subjects = new File(SUBJECTS_DIR);
 
-
-    public static void main(String[] args) {
-
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Entrez le chemin du fichier .java : ");
-        String filePath = scanner.nextLine();
-
-        if (!filePath.endsWith(".java")) {
-            System.out.println("Ce n'est pas un fichier .java");
+        if (!subjects.exists()) {
+            System.out.println("Subjects directory not found.");
             return;
         }
 
-        File originalFile = new File(filePath);
+        File [] files = subjects.listFiles((dir,name) -> name.endsWith(".java"));
 
-        if (!originalFile.exists()) {
-            System.out.println("Fichier introuvable.");
+        if (files == null || files.length == 0) {
+            System.out.println("No subject files found.");
             return;
         }
 
+        for (File file : files) {
+            instrumentFile(file);
+        }
+    }
+
+    public static void instrumentFile(File originalFile){
         String originalClassName = originalFile.getName().replace(".java", "");
 
         String mutableClassName = originalClassName + "Mutable";
         String observedClassName = originalClassName + "Observee";
 
-        String mutableFilePath = filePath.replace(".java", "Mutable.java");
-        String observedFilePath = filePath.replace(".java", "Observee.java");
 
-        File mutableFile = new File(mutableFilePath);
-        File observedFile = new File(observedFilePath);
+        File mutableFile = new File(INSTRUMENTED_DIR, mutableClassName + ".java");
+        File observedFile = new File(INSTRUMENTED_DIR, observedClassName + ".java");
 
         Pattern declarationPattern =
                 Pattern.compile("^\\s*(?:final\\s+)?[\\w<>\\[\\]]+\\s+(\\w+)\\s*=.+;");
@@ -408,11 +413,18 @@ public class MutationAnalyser {
                 }
             }
 
-            System.out.println("Fichier mutable créé : " + mutableFilePath);
-            System.out.println("Fichier observé créé : " + observedFilePath);
+            System.out.println("Fichier mutable créé : " + mutableFile.getName());
+            System.out.println("Fichier observé créé : " + observedFile.getName());
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public static void main(String[] args) {
+
+        instrumentAllSubjects();
+
     }
 }

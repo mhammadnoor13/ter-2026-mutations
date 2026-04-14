@@ -2,10 +2,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import core.MutationAnalyser;
 import core.PropagationAnalyzer;
-import experiment.instrumented.ClasseSimpleMutable;
-import experiment.instrumented.ClasseSimpleObservee;
-import experiment.instrumented.PropagationPlaygroundMutable;
-import experiment.instrumented.PropagationPlaygroundObservee;
+
+import experiment.subjects.ClasseSimpleMutable;
+import experiment.subjects.ClasseSimpleObservee;
+import experiment.subjects.PropagationPlaygroundMutable;
+import experiment.subjects.PropagationPlaygroundObservee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
