@@ -1,3 +1,5 @@
+package core;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -162,6 +164,15 @@ public class MutationAnalyser {
         }
     }
 
+    // Snapshots getters (used in Propagation Analyzer)
+    public List<List<String>> getSnapshots() {
+        return allSnapshots;
+    }
+
+    public List<List<String>> getSnapshotsObservee() {
+        return allSnapshotsObservee;
+    }
+
     public void showSnapshotsInPopup() {
 
         if (allSnapshots.isEmpty() || allSnapshotsObservee.isEmpty()) {
@@ -306,7 +317,18 @@ public class MutationAnalyser {
         File mutableFile = new File(mutableFilePath);
         File observedFile = new File(observedFilePath);
 
-        Pattern varPattern = Pattern.compile("^\\s*([\\w<>]+)\\s+(\\w+)\\s*=.*;");
+        Pattern declarationPattern =
+                Pattern.compile("^\\s*(?:final\\s+)?[\\w<>\\[\\]]+\\s+(\\w+)\\s*=.+;");
+
+        Pattern assignmentPattern =
+                Pattern.compile("^\\s*(\\w+)\\s*=\\s*.+;");
+
+        Pattern compoundAssignmentPattern =
+                Pattern.compile("^\\s*(\\w+)\\s*(\\+=|-=|\\*=|/=|%=)\\s*.+;");
+
+        Pattern incrementPattern =
+                Pattern.compile("^\\s*(?:\\+\\+|--)?\\s*(\\w+)\\s*(?:\\+\\+|--)\\s*;");
+
         Pattern returnPattern = Pattern.compile("\\breturn\\b");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(originalFile));
@@ -324,14 +346,15 @@ public class MutationAnalyser {
                 // --- DETECTION RETURN ---
                 Matcher returnMatcher = returnPattern.matcher(line);
 
+
                 if (returnMatcher.find()) {
 
                     // 🔥 injecter snapshot AVANT le return
 
                     String indent = line.substring(0, line.indexOf("return"));
 
-                    String snapMutable = indent + "MutationAnalyser.getInstance().takeSnapshot();";
-                    String snapObservee = indent + "MutationAnalyser.getInstance().takeSnapshotObservee();";
+                    String snapMutable = indent + "core.MutationAnalyser.getInstance().takeSnapshot();";
+                    String snapObservee = indent + "core.MutationAnalyser.getInstance().takeSnapshotObservee();";
 
                     mutableWriter.write(snapMutable);
                     mutableWriter.newLine();
@@ -348,16 +371,33 @@ public class MutationAnalyser {
                 observedWriter.newLine();
 
                 // --- DETECTION VARIABLES ---
-                Matcher matcher = varPattern.matcher(line);
 
-                if (matcher.find()) {
 
-                    String variableName = matcher.group(2);
+                String variableName = null;
 
-                    String probeMutable = "MutationAnalyser.getInstance().addNewVariable("
+                Matcher declarationMatcher = declarationPattern.matcher(line);
+                Matcher assignmentMatcher = assignmentPattern.matcher(line);
+                Matcher compoundMatcher = compoundAssignmentPattern.matcher(line);
+                Matcher incrementMatcher = incrementPattern.matcher(line);
+
+                if (declarationMatcher.find()) {
+                    variableName = declarationMatcher.group(1);
+                } else if (compoundMatcher.find()) {
+                    variableName = compoundMatcher.group(1);
+                } else if (incrementMatcher.find()) {
+                    variableName = incrementMatcher.group(1);
+                } else if (assignmentMatcher.find()) {
+                    variableName = assignmentMatcher.group(1);
+                }
+
+                if (variableName != null) {
+
+                    String indent = line.substring(0, line.indexOf(line.trim()));
+
+                    String probeMutable = indent + "core.MutationAnalyser.getInstance().addNewVariable("
                             + variableName + ", \"" + variableName + "\");";
 
-                    String probeObservee = "MutationAnalyser.getInstance().addNewVariableObservee("
+                    String probeObservee = indent + "core.MutationAnalyser.getInstance().addNewVariableObservee("
                             + variableName + ", \"" + variableName + "\");";
 
                     mutableWriter.write(probeMutable);
