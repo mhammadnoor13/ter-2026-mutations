@@ -22,6 +22,10 @@ public class MutationAnalyser {
     private final List<String> allVariableNamesObservee;
     private final List<List<String>> allSnapshotsObservee;
 
+    private String currentCode = "";
+    private final List<String> snapshotCode = new ArrayList<>();
+    private final List<String> snapshotCodeObservee = new ArrayList<>();
+
 
     private static MutationAnalyser instance;
 
@@ -48,6 +52,10 @@ public class MutationAnalyser {
             instance = new MutationAnalyser();
         }
         return instance;
+    }
+
+    public void setCurrentCode(String code) {
+        this.currentCode = code.trim();
     }
 
     public void reset() {
@@ -140,6 +148,7 @@ public class MutationAnalyser {
         }
 
         allSnapshots.add(snapshot);
+        snapshotCode.add(currentCode);
         allVariables.set(0,(int)(allVariables.get(0)) + 1);
     }
 
@@ -153,7 +162,12 @@ public class MutationAnalyser {
         }
 
         allSnapshotsObservee.add(snapshot);
+        snapshotCodeObservee.add(currentCode);
         allVariablesObservee.set(0, (int)(allVariablesObservee.get(0)) + 1);
+    }
+
+    public List<String> getSnapshotCode() {
+        return snapshotCode;
     }
 
     // --- Nouvelle méthode ---
@@ -354,16 +368,30 @@ public class MutationAnalyser {
 
                 if (returnMatcher.find()) {
 
-                    // 🔥 injecter snapshot AVANT le return
-
                     String indent = line.substring(0, line.indexOf("return"));
+                    String escapedLine = line.trim().replace("\"", "\\\"");
 
-                    String snapMutable = indent + "core.MutationAnalyser.getInstance().takeSnapshot();";
-                    String snapObservee = indent + "core.MutationAnalyser.getInstance().takeSnapshotObservee();";
+                    String setCodeMutable =
+                            indent + "core.MutationAnalyser.getInstance().setCurrentCode(\""
+                                    + escapedLine + "\");";
 
+                    String snapMutable =
+                            indent + "core.MutationAnalyser.getInstance().takeSnapshot();";
+
+                    String setCodeObservee =
+                            indent + "core.MutationAnalyser.getInstance().setCurrentCode(\""
+                                    + escapedLine + "\");";
+
+                    String snapObservee =
+                            indent + "core.MutationAnalyser.getInstance().takeSnapshotObservee();";
+
+                    mutableWriter.write(setCodeMutable);
+                    mutableWriter.newLine();
                     mutableWriter.write(snapMutable);
                     mutableWriter.newLine();
 
+                    observedWriter.write(setCodeObservee);
+                    observedWriter.newLine();
                     observedWriter.write(snapObservee);
                     observedWriter.newLine();
                 }
@@ -399,15 +427,31 @@ public class MutationAnalyser {
 
                     String indent = line.substring(0, line.indexOf(line.trim()));
 
-                    String probeMutable = indent + "core.MutationAnalyser.getInstance().addNewVariable("
-                            + variableName + ", \"" + variableName + "\");";
+                    String escapedLine = line.trim().replace("\"", "\\\"");
 
-                    String probeObservee = indent + "core.MutationAnalyser.getInstance().addNewVariableObservee("
-                            + variableName + ", \"" + variableName + "\");";
+                    String setCodeMutable =
+                            indent + "core.MutationAnalyser.getInstance().setCurrentCode(\""
+                                    + escapedLine + "\");";
 
+                    String probeMutable =
+                            indent + "core.MutationAnalyser.getInstance().addNewVariable("
+                                    + variableName + ", \"" + variableName + "\");";
+
+                    String setCodeObservee =
+                            indent + "core.MutationAnalyser.getInstance().setCurrentCode(\""
+                                    + escapedLine + "\");";
+
+                    String probeObservee =
+                            indent + "core.MutationAnalyser.getInstance().addNewVariableObservee("
+                                    + variableName + ", \"" + variableName + "\");";
+
+                    mutableWriter.write(setCodeMutable);
+                    mutableWriter.newLine();
                     mutableWriter.write(probeMutable);
                     mutableWriter.newLine();
 
+                    observedWriter.write(setCodeObservee);
+                    observedWriter.newLine();
                     observedWriter.write(probeObservee);
                     observedWriter.newLine();
                 }

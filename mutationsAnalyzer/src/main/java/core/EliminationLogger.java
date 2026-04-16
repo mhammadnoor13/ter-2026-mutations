@@ -19,6 +19,7 @@ public class EliminationLogger {
 
     public void logElimination(
             int snapshot,
+            String code,
             String variable,
             Set<String> previous,
             Set<String> current
@@ -34,9 +35,10 @@ public class EliminationLogger {
             String json =
                     "{\n" +
                             "  \"snapshot\": " + snapshot + ",\n" +
+                            "  \"code\": \"" + code + "\",\n" +
                             "  \"eliminatedVariable\": \"" + variable + "\",\n" +
-                            "  \"previousSet\": \"" + previous + "\",\n" +
-                            "  \"currentSet\": \"" + current + "\"\n" +
+                            "  \"previousSet\": " + toJsonArray(previous) + ",\n" +
+                            "  \"currentSet\": " + toJsonArray(current) + "\n" +
                             "},\n";
 
             writer.write(json);
@@ -45,4 +47,21 @@ public class EliminationLogger {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }}
+    }
+    private String toJsonArray(Set<String> set) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+
+        int i = 0;
+        for (String s : set) {
+            sb.append("\"").append(s).append("\"");
+            if (i < set.size() - 1) {
+                sb.append(", ");
+            }
+            i++;
+        }
+
+        sb.append("]");
+        return sb.toString();
+    }
+}

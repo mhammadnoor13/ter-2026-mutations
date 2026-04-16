@@ -30,8 +30,8 @@ public class PropagationPlayground {
         // ---- propagation chain 1 ----
         for (int v : data) {
             if (v > threshold) {
-                sum += v;        // mutation here propagates to sum
-                count++;         // then to count
+                sum += v;
+                count++;
 
                 if (v > max) {
                     max = v;

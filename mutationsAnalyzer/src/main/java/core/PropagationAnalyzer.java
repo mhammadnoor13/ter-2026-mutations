@@ -69,8 +69,11 @@ public class PropagationAnalyzer {
                 else if (before && !after) {
                     System.out.println(var + " → ELIMINATION");
 
+                    String code = MutationAnalyser.getInstance().getSnapshotCode().get(i);
+
                     EliminationLogger.getInstance().logElimination(
                             i+1,
+                            code,
                             var,
                             previous,
                             current
