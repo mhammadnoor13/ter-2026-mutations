@@ -1,3 +1,5 @@
+package core;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +22,20 @@ public class MutationAnalyser {
     private final List<String> allVariableNamesObservee;
     private final List<List<String>> allSnapshotsObservee;
 
+    private String currentCode = "";
+    private final List<String> snapshotCode = new ArrayList<>();
+    private final List<String> snapshotCodeObservee = new ArrayList<>();
+
+
     private static MutationAnalyser instance;
 
     private int mutationCounter = 0;
+
+    private static final String SUBJECTS_DIR =
+            "mutationsAnalyzer/src/main/java/experiment/subjects";
+
+    private static final String INSTRUMENTED_DIR =
+            "mutationsAnalyzer/src/main/java/experiment/instrumented";
 
     private MutationAnalyser() {
         this.allVariables = new ArrayList<>();
@@ -39,6 +52,10 @@ public class MutationAnalyser {
             instance = new MutationAnalyser();
         }
         return instance;
+    }
+
+    public void setCurrentCode(String code) {
+        this.currentCode = code.trim();
     }
 
     public void reset() {
@@ -131,6 +148,7 @@ public class MutationAnalyser {
         }
 
         allSnapshots.add(snapshot);
+        snapshotCode.add(currentCode);
         allVariables.set(0,(int)(allVariables.get(0)) + 1);
     }
 
@@ -144,7 +162,12 @@ public class MutationAnalyser {
         }
 
         allSnapshotsObservee.add(snapshot);
+        snapshotCodeObservee.add(currentCode);
         allVariablesObservee.set(0, (int)(allVariablesObservee.get(0)) + 1);
+    }
+
+    public List<String> getSnapshotCode() {
+        return snapshotCode;
     }
 
     // --- Nouvelle méthode ---
@@ -160,6 +183,15 @@ public class MutationAnalyser {
 
             System.out.println("--------------------");
         }
+    }
+
+    // Snapshots getters (used in Propagation Analyzer)
+    public List<List<String>> getSnapshots() {
+        return allSnapshots;
+    }
+
+    public List<List<String>> getSnapshotsObservee() {
+        return allSnapshotsObservee;
     }
 
     public void showSnapshotsInPopup() {
@@ -274,39 +306,48 @@ public class MutationAnalyser {
         return "";
     }
 
+    public static void instrumentAllSubjects(){
+        File subjects = new File(SUBJECTS_DIR);
 
-
-    public static void main(String[] args) {
-
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.print("Entrez le chemin du fichier .java : ");
-        String filePath = scanner.nextLine();
-
-        if (!filePath.endsWith(".java")) {
-            System.out.println("Ce n'est pas un fichier .java");
+        if (!subjects.exists()) {
+            System.out.println("Subjects directory not found.");
             return;
         }
 
-        File originalFile = new File(filePath);
+        File [] files = subjects.listFiles((dir,name) -> name.endsWith(".java"));
 
-        if (!originalFile.exists()) {
-            System.out.println("Fichier introuvable.");
+        if (files == null || files.length == 0) {
+            System.out.println("No subject files found.");
             return;
         }
 
+        for (File file : files) {
+            instrumentFile(file);
+        }
+    }
+
+    public static void instrumentFile(File originalFile){
         String originalClassName = originalFile.getName().replace(".java", "");
 
         String mutableClassName = originalClassName + "Mutable";
         String observedClassName = originalClassName + "Observee";
 
-        String mutableFilePath = filePath.replace(".java", "Mutable.java");
-        String observedFilePath = filePath.replace(".java", "Observee.java");
 
-        File mutableFile = new File(mutableFilePath);
-        File observedFile = new File(observedFilePath);
+        File mutableFile = new File(INSTRUMENTED_DIR, mutableClassName + ".java");
+        File observedFile = new File(INSTRUMENTED_DIR, observedClassName + ".java");
 
-        Pattern varPattern = Pattern.compile("^\\s*([\\w<>]+)\\s+(\\w+)\\s*=.*;");
+        Pattern declarationPattern =
+                Pattern.compile("^\\s*(?:final\\s+)?[\\w<>\\[\\]]+\\s+(\\w+)\\s*=.+;");
+
+        Pattern assignmentPattern =
+                Pattern.compile("^\\s*(\\w+)\\s*=\\s*.+;");
+
+        Pattern compoundAssignmentPattern =
+                Pattern.compile("^\\s*(\\w+)\\s*(\\+=|-=|\\*=|/=|%=)\\s*.+;");
+
+        Pattern incrementPattern =
+                Pattern.compile("^\\s*(?:\\+\\+|--)?\\s*(\\w+)\\s*(?:\\+\\+|--)\\s*;");
+
         Pattern returnPattern = Pattern.compile("\\breturn\\b");
 
         try (BufferedReader reader = new BufferedReader(new FileReader(originalFile));
@@ -324,18 +365,33 @@ public class MutationAnalyser {
                 // --- DETECTION RETURN ---
                 Matcher returnMatcher = returnPattern.matcher(line);
 
+
                 if (returnMatcher.find()) {
 
-                    // 🔥 injecter snapshot AVANT le return
-
                     String indent = line.substring(0, line.indexOf("return"));
+                    String escapedLine = line.trim().replace("\"", "\\\"");
 
-                    String snapMutable = indent + "MutationAnalyser.getInstance().takeSnapshot();";
-                    String snapObservee = indent + "MutationAnalyser.getInstance().takeSnapshotObservee();";
+                    String setCodeMutable =
+                            indent + "core.MutationAnalyser.getInstance().setCurrentCode(\""
+                                    + escapedLine + "\");";
 
+                    String snapMutable =
+                            indent + "core.MutationAnalyser.getInstance().takeSnapshot();";
+
+                    String setCodeObservee =
+                            indent + "core.MutationAnalyser.getInstance().setCurrentCode(\""
+                                    + escapedLine + "\");";
+
+                    String snapObservee =
+                            indent + "core.MutationAnalyser.getInstance().takeSnapshotObservee();";
+
+                    mutableWriter.write(setCodeMutable);
+                    mutableWriter.newLine();
                     mutableWriter.write(snapMutable);
                     mutableWriter.newLine();
 
+                    observedWriter.write(setCodeObservee);
+                    observedWriter.newLine();
                     observedWriter.write(snapObservee);
                     observedWriter.newLine();
                 }
@@ -348,31 +404,71 @@ public class MutationAnalyser {
                 observedWriter.newLine();
 
                 // --- DETECTION VARIABLES ---
-                Matcher matcher = varPattern.matcher(line);
 
-                if (matcher.find()) {
 
-                    String variableName = matcher.group(2);
+                String variableName = null;
 
-                    String probeMutable = "MutationAnalyser.getInstance().addNewVariable("
-                            + variableName + ", \"" + variableName + "\");";
+                Matcher declarationMatcher = declarationPattern.matcher(line);
+                Matcher assignmentMatcher = assignmentPattern.matcher(line);
+                Matcher compoundMatcher = compoundAssignmentPattern.matcher(line);
+                Matcher incrementMatcher = incrementPattern.matcher(line);
 
-                    String probeObservee = "MutationAnalyser.getInstance().addNewVariableObservee("
-                            + variableName + ", \"" + variableName + "\");";
+                if (declarationMatcher.find()) {
+                    variableName = declarationMatcher.group(1);
+                } else if (compoundMatcher.find()) {
+                    variableName = compoundMatcher.group(1);
+                } else if (incrementMatcher.find()) {
+                    variableName = incrementMatcher.group(1);
+                } else if (assignmentMatcher.find()) {
+                    variableName = assignmentMatcher.group(1);
+                }
 
+                if (variableName != null) {
+
+                    String indent = line.substring(0, line.indexOf(line.trim()));
+
+                    String escapedLine = line.trim().replace("\"", "\\\"");
+
+                    String setCodeMutable =
+                            indent + "core.MutationAnalyser.getInstance().setCurrentCode(\""
+                                    + escapedLine + "\");";
+
+                    String probeMutable =
+                            indent + "core.MutationAnalyser.getInstance().addNewVariable("
+                                    + variableName + ", \"" + variableName + "\");";
+
+                    String setCodeObservee =
+                            indent + "core.MutationAnalyser.getInstance().setCurrentCode(\""
+                                    + escapedLine + "\");";
+
+                    String probeObservee =
+                            indent + "core.MutationAnalyser.getInstance().addNewVariableObservee("
+                                    + variableName + ", \"" + variableName + "\");";
+
+                    mutableWriter.write(setCodeMutable);
+                    mutableWriter.newLine();
                     mutableWriter.write(probeMutable);
                     mutableWriter.newLine();
 
+                    observedWriter.write(setCodeObservee);
+                    observedWriter.newLine();
                     observedWriter.write(probeObservee);
                     observedWriter.newLine();
                 }
             }
 
-            System.out.println("Fichier mutable créé : " + mutableFilePath);
-            System.out.println("Fichier observé créé : " + observedFilePath);
+            System.out.println("Fichier mutable créé : " + mutableFile.getName());
+            System.out.println("Fichier observé créé : " + observedFile.getName());
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public static void main(String[] args) {
+
+        instrumentAllSubjects();
+
     }
 }
