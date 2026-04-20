@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClasseSimpleMutable {
+public class ClasseSimple {
 
     private int seuil;
     private double coefficient;
     private List<Integer> valeurs;
 
-    public ClasseSimpleMutable(int seuil, double coefficient) {
+    public ClasseSimple(int seuil, double coefficient) {
         this.seuil = seuil;
         this.coefficient = coefficient;
         this.valeurs = new ArrayList<>();
@@ -21,16 +21,12 @@ public class ClasseSimpleMutable {
     public double calculerScore() {
 
         int somme = 0;                 // variable interne
-MutationAnalyser.getInstance().addNewVariable(somme, "somme");
         int compteur = 0;              // variable interne
-MutationAnalyser.getInstance().addNewVariable(compteur, "compteur");
 
         for (int v : valeurs) {
             if (v > seuil) {
                 somme += v;
-                MutationAnalyser.getInstance().addNewVariable(somme, "somme");
                 compteur++;
-                MutationAnalyser.getInstance().addNewVariable(compteur, "compteur");
             }
         }
 
@@ -39,9 +35,7 @@ MutationAnalyser.getInstance().addNewVariable(compteur, "compteur");
         }
 
         double moyenne = (double) somme / compteur;  // variable interne
-MutationAnalyser.getInstance().addNewVariable(moyenne, "moyenne");
         double scoreFinal = moyenne * coefficient;   // variable interne
-MutationAnalyser.getInstance().addNewVariable(scoreFinal, "scoreFinal");
 
         return scoreFinal;
     }
@@ -50,9 +44,7 @@ MutationAnalyser.getInstance().addNewVariable(scoreFinal, "scoreFinal");
     public boolean verifierDepassement() {
 
         double score = calculerScore();  // variable interne
-MutationAnalyser.getInstance().addNewVariable(score, "score");
         double limite = seuil * coefficient; // variable interne
-MutationAnalyser.getInstance().addNewVariable(limite, "limite");
 
         return score > limite;
     }

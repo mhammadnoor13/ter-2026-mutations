@@ -14,7 +14,7 @@ le comportement des mutants pendant l'exécution des tests.
 
 ### Génération d'une classe prête à être mutée
 
-La classe `core.MutationAnalyser` possède une méthode `main` exécutable qui
+La classe `MutationAnalyser` possède une méthode `main` exécutable qui
 demande en entrée une classe `.java`.\
 Cette exécution génère deux nouvelles classes :
 
@@ -33,30 +33,30 @@ Pour injecter une mutation :
 3.  Avant chaque mutant, ajouter l'appel suivant :
 
 ``` java
-core.MutationAnalyser.getInstance().addMutation("nom_de_la_mutation");
+MutationAnalyser.getInstance().addMutation("nom_de_la_mutation");
 ```
 
 Cet appel permet d'enregistrer et d'identifier la mutation appliquée.
 
 ### Exécution et analyse avec les tests
 
-Dans vos tests **JUnit**, vous pouvez utiliser `core.MutationAnalyser` pour
+Dans vos tests **JUnit**, vous pouvez utiliser `MutationAnalyser` pour
 observer l'évolution des mutants durant l'exécution.
 
 Pour afficher les snapshots d'analyse, ajoutez la ligne suivante **avant
 vos assertions** :
 
 ``` java
-core.MutationAnalyser.getInstance().showSnapshotsInPopup();
+MutationAnalyser.getInstance().showSnapshotsInPopup();
 ```
 
 ### Conseil
 
-Il est recommandé de réinitialiser `core.MutationAnalyser` avant chaque test
+Il est recommandé de réinitialiser `MutationAnalyser` avant chaque test
 afin d'éviter toute interférence entre les cas de test :
 
 ``` java
-core.MutationAnalyser.getInstance().reset();
+MutationAnalyser.getInstance().reset();
 ```
 
 Cette instruction peut être placée dans la méthode `setUp()` de vos
