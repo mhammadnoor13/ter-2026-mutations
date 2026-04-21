@@ -1,0 +1,7 @@
+{
+  "snapshot": 21,
+  "code": "dead = 10;",
+  "eliminatedVariable": "dead",
+  "previousSet": ["maskedAverage", "average", "scaled", "normalized", "restored", "sum", "dead"],
+  "currentSet": ["maskedAverage", "average", "scaled", "conditional", "normalized", "restored", "sum"]
+},

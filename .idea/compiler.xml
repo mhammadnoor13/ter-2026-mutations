@@ -10,7 +10,6 @@
         <module name="basicplanner (3)" />
         <module name="basicplanner (2)" />
         <module name="basicplanner (4)" />
-        <module name="testMutations" />
         <module name="basicplanner (1)" />
       </profile>
     </annotationProcessing>
