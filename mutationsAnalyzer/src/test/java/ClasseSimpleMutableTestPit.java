@@ -1,3 +1,4 @@
+import experiment.subjects.ClasseSimple;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

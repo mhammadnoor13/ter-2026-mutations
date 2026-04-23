@@ -4,4 +4,10 @@
   "eliminatedVariable": "dead",
   "previousSet": ["maskedAverage", "average", "scaled", "normalized", "restored", "sum", "dead"],
   "currentSet": ["maskedAverage", "average", "scaled", "conditional", "normalized", "restored", "sum"]
+},{
+  "snapshot": 21,
+  "code": "dead = 10; // killed",
+  "eliminatedVariable": "dead",
+  "previousSet": ["maskedAverage", "average", "scaled", "normalized", "restored", "sum", "dead"],
+  "currentSet": ["maskedAverage", "average", "scaled", "conditional", "normalized", "restored", "sum"]
 },

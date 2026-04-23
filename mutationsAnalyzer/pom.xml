@@ -73,7 +73,7 @@
 
                     <!-- IMPORTANT : cible toutes les classes -->
                     <targetClasses>
-                        <param>ClasseSimple</param>
+                        <param>experiment.subjects.ClasseSimple</param>
                     </targetClasses>
 
                     <targetTests>
