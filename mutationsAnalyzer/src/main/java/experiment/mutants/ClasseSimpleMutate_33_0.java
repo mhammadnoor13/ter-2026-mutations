@@ -1,17 +1,17 @@
-package experiment.instrumented;
+package experiment.mutants;
 
 import core.MutationAnalyser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClasseSimpleMutable_33 {
+public class ClasseSimpleMutate_33_0 {
 
     private int seuil;
     private double coefficient;
     private List<Integer> valeurs;
 
-    public ClasseSimpleMutable_33(int seuil, double coefficient) {
+    public ClasseSimpleMutate_33_0(int seuil, double coefficient) {
         this.seuil = seuil;
         this.coefficient = coefficient;
         this.valeurs = new ArrayList<>();

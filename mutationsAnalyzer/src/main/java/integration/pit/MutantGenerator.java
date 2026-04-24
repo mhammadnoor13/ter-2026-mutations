@@ -14,7 +14,7 @@ public class MutantGenerator {
     private static final String SUBJECTS_DIR =
             "mutationsAnalyzer/src/main/java/experiment/subjects/";
     private static final String OUTPUT_DIR =
-            "mutationsAnalyzer/src/main/java/experiment/instrumented/";
+            "mutationsAnalyzer/src/main/java/experiment/mutants/";
 
     public static void generateMutant(PitMutation mutation, int id) {
 
@@ -41,7 +41,7 @@ public class MutantGenerator {
             String originalClassName =
                     mutation.sourceFile.replace(".java", "");
 
-            String newClassName = originalClassName + "Mutable_" + mutation.lineNumber + "_" + id;
+            String newClassName = originalClassName + "Mutate_" + mutation.lineNumber + "_" + id;
 
             Path outputPath = Paths.get(OUTPUT_DIR, newClassName + ".java");
             for (int i = 0; i < lines.size(); i++) {
@@ -50,7 +50,7 @@ public class MutantGenerator {
 
                 // 1. Fix package
                 if (linee.startsWith("package ")) {
-                    linee = "package experiment.instrumented;";
+                    linee = "package experiment.mutants;";
                 }
 
                 // 2. Rename class everywhere
