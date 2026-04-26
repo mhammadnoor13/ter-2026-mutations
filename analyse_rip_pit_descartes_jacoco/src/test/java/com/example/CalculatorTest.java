@@ -7,16 +7,13 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Tests de Calculator — qualité volontairement variée pour illustrer RIP.
  *
- * ┌──────────────┬─────┬─────┬─────┬──────────────────────────────┐
- * │ Méthode      │  R  │  I  │  P  │ Diagnostic attendu           │
- * ├──────────────┼─────┼─────┼─────┼──────────────────────────────┤
- * │ add          │  ✓  │  ✓  │  ✓  │ killed — test complet        │
- * │ multiply     │  ✓  │  ✓  │  ✗  │ pseudo-tested — pas assert   │
- * │ max          │  ✗  │  -  │  -  │ no_coverage — jamais appelé  │
- * │ divide       │  ✓  │  ✗  │  ✗  │ survived — entrées neutres   │
- * │ isPositive   │  ✓  │  ✓  │  ✓  │ killed — bon test            │
- * │ factorial    │  ✓  │  ✓  │  ✓  │ killed — cas multiples       │
- * └──────────────┴─────┴─────┴─────┴──────────────────────────────┘
+ * Méthodes intentionnellement variées pour illustrer les trois cas :
+ *  - add()     → test correct  : R ✓ I ✓ P ✓  (mutation tuée)
+ *  - multiply() → pas d'assertion : R ✓ I ✓ P ✗  (pseudo-tested)
+ *  - max()     → non appelé    : R ✗             (no_coverage)
+ *  - divide()  → entrées neutres: R ✓ I ✗         (partiellement testé)
+ *  - isPositive()     → test correct  : R ✓ I ✓ P ✓  (mutation tuée)
+ *  - factorial()     → test correct  : R ✓ I ✓ P ✓  (mutation tuée)
  */
 class CalculatorTest {
 
@@ -27,11 +24,9 @@ class CalculatorTest {
         calc = new Calculator();
     }
 
-    // ─────────────────────────────────────────────────────────────
     // add() — R ✓ I ✓ P ✓ → mutation TUÉE
     // Entrées : 3 ≠ 2, donc a+b ≠ a-b  (I satisfait)
     // Assertion sur la valeur exacte    (P satisfait)
-    // ─────────────────────────────────────────────────────────────
 
     @Test
     void add_deuxPositifs() {
@@ -48,12 +43,10 @@ class CalculatorTest {
         assertEquals(0, calc.add(0, 0));
     }
 
-    // ─────────────────────────────────────────────────────────────
     // multiply() — R ✓ I ✓ P ✗ → PSEUDO-TESTED
     // Le test appelle multiply() mais n'assert PAS le résultat.
     // Descartes le détecte : remplacer la méthode par "return 0"
     // ne fait pas échouer ce test.
-    // ─────────────────────────────────────────────────────────────
 
     @Test
     void multiply_appelSansAssertion() {
@@ -63,20 +56,16 @@ class CalculatorTest {
         assertTrue(true); // assertion inutile, ne capte rien
     }
 
-    // ─────────────────────────────────────────────────────────────
     // max() — R ✗ → NO_COVERAGE
     // Aucun test n'appelle max(). JaCoCo montrera 0% de couverture.
-    // ─────────────────────────────────────────────────────────────
 
     // (aucun test pour max — intentionnel)
 
-    // ─────────────────────────────────────────────────────────────
     // divide() — R ✓ I ✗ → SURVIVED
     // On teste uniquement divide(6, 2) = 3.
     // Mutation AOR : a / b → a * b  donne 6*2 = 12 ≠ 3 → devrait être tué !
     // Mais : on teste aussi divide(0, 5) = 0, et 0/5 == 0*5 == 0 → I échoue
     // pour CET appel. Résultat : partiellement testé.
-    // ─────────────────────────────────────────────────────────────
 
     @Test
     void divide_casNeutre() {
@@ -91,9 +80,7 @@ class CalculatorTest {
             () -> calc.divide(10, 0));
     }
 
-    // ─────────────────────────────────────────────────────────────
     // isPositive() — R ✓ I ✓ P ✓ → mutation TUÉE
-    // ─────────────────────────────────────────────────────────────
 
     @Test
     void isPositive_nombrePositif() {
@@ -111,10 +98,8 @@ class CalculatorTest {
         assertFalse(calc.isPositive(0));
     }
 
-    // ─────────────────────────────────────────────────────────────
     // factorial() — R ✓ I ✓ P ✓ → mutation TUÉE
     // Plusieurs cas pour couvrir toutes les branches
-    // ─────────────────────────────────────────────────────────────
 
     @Test
     void factorial_zero() {
