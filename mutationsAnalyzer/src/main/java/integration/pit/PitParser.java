@@ -2,6 +2,7 @@ package integration.pit;
 
 import org.w3c.dom.*;
 import javax.xml.parsers.*;
+import java.io.Console;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +20,12 @@ public class PitParser {
 
             Document doc = builder.parse(file);
             NodeList mutationNodes = doc.getElementsByTagName("mutation");
+            System.out.println(mutationNodes);
 
             for (int i = 0; i < mutationNodes.getLength(); i++) {
 
                 Element m = (Element) mutationNodes.item(i);
+
 
                 String status = m.getAttribute("status");
 
@@ -55,6 +58,8 @@ public class PitParser {
                         status
                 ));
             }
+
+
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -27,6 +27,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.11.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -73,11 +79,11 @@
 
                     <!-- IMPORTANT : cible toutes les classes -->
                     <targetClasses>
-                        <param>experiment.subjects.ClasseSimple</param>
+                        <param>experiment.subjects.WithdrawalLimiter</param>
                     </targetClasses>
 
                     <targetTests>
-                        <param>ClasseSimpleMutableTestPit</param>
+                        <param>WithdrawalLimiterTest</param>
                     </targetTests>
 
 

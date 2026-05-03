@@ -12,20 +12,20 @@ public class MutantGenerator {
 
 
     private static final String SUBJECTS_DIR =
-            "mutationsAnalyzer/src/main/java/experiment/subjects/";
+            "src/main/java/experiment/subjects/";
     private static final String OUTPUT_DIR =
-            "mutationsAnalyzer/src/main/java/experiment/mutants/";
+            "src/main/java/experiment/mutants/";
 
-    public static void generateMutant(PitMutation mutation, int id) {
+    public static String generateMutant(PitMutation mutation, int id) {
 
         try {
 
-            Path inputPath = Paths.get(SUBJECTS_DIR + mutation.sourceFile);
+            Path inputPath = Paths.get(SUBJECTS_DIR , mutation.sourceFile);
             List<String> lines = Files.readAllLines(inputPath);
 
             int index = mutation.lineNumber - 1;
 
-            if (index < 0 || index >= lines.size()) return;
+            if (index < 0 || index >= lines.size()) return null;
 
             String line = lines.get(index);
 
@@ -33,7 +33,7 @@ public class MutantGenerator {
 
             if (mutatedLine.equals(line)) {
                 // nothing changed → skip
-                return;
+                return null;
             }
 
             lines.set(index, mutatedLine);
@@ -66,8 +66,11 @@ public class MutantGenerator {
 
             System.out.println("Generated mutant: " + newClassName);
 
+            return "experiment.mutants." + newClassName;
+
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
     }
 }

@@ -1,4 +1,6 @@
-package experiment.subjects;
+package experiment.instrumented;
+
+import core.MutationAnalyser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,18 +27,22 @@ public class ClasseSimpleObservee {
         int somme = 0;                 // variable interne
         core.MutationAnalyser.getInstance().setCurrentCode("int somme = 0;                 // variable interne");
         core.MutationAnalyser.getInstance().addNewVariableObservee(somme, "somme");
+MutationAnalyser.getInstance().addNewVariable(somme, "somme");
         int compteur = 0;              // variable interne
         core.MutationAnalyser.getInstance().setCurrentCode("int compteur = 0;              // variable interne");
         core.MutationAnalyser.getInstance().addNewVariableObservee(compteur, "compteur");
+MutationAnalyser.getInstance().addNewVariable(compteur, "compteur");
 
         for (int v : valeurs) {
             if (v > seuil) {
                 somme += v;
                 core.MutationAnalyser.getInstance().setCurrentCode("somme += v;");
                 core.MutationAnalyser.getInstance().addNewVariableObservee(somme, "somme");
+                MutationAnalyser.getInstance().addNewVariable(somme, "somme");
                 compteur++;
                 core.MutationAnalyser.getInstance().setCurrentCode("compteur++;");
                 core.MutationAnalyser.getInstance().addNewVariableObservee(compteur, "compteur");
+                MutationAnalyser.getInstance().addNewVariable(compteur, "compteur");
             }
         }
 
@@ -49,9 +55,11 @@ public class ClasseSimpleObservee {
         double moyenne = (double) somme / compteur;  // variable interne
         core.MutationAnalyser.getInstance().setCurrentCode("double moyenne = (double) somme / compteur;  // variable interne");
         core.MutationAnalyser.getInstance().addNewVariableObservee(moyenne, "moyenne");
+MutationAnalyser.getInstance().addNewVariable(moyenne, "moyenne");
         double scoreFinal = moyenne * coefficient;   // variable interne
         core.MutationAnalyser.getInstance().setCurrentCode("double scoreFinal = moyenne * coefficient;   // variable interne");
         core.MutationAnalyser.getInstance().addNewVariableObservee(scoreFinal, "scoreFinal");
+MutationAnalyser.getInstance().addNewVariable(scoreFinal, "scoreFinal");
 
         core.MutationAnalyser.getInstance().setCurrentCode("return scoreFinal;");
         core.MutationAnalyser.getInstance().takeSnapshotObservee();
@@ -64,9 +72,11 @@ public class ClasseSimpleObservee {
         double score = calculerScore();  // variable interne
         core.MutationAnalyser.getInstance().setCurrentCode("double score = calculerScore();  // variable interne");
         core.MutationAnalyser.getInstance().addNewVariableObservee(score, "score");
+MutationAnalyser.getInstance().addNewVariable(score, "score");
         double limite = seuil * coefficient; // variable interne
         core.MutationAnalyser.getInstance().setCurrentCode("double limite = seuil * coefficient; // variable interne");
         core.MutationAnalyser.getInstance().addNewVariableObservee(limite, "limite");
+MutationAnalyser.getInstance().addNewVariable(limite, "limite");
 
         core.MutationAnalyser.getInstance().setCurrentCode("return score > limite;");
         core.MutationAnalyser.getInstance().takeSnapshotObservee();

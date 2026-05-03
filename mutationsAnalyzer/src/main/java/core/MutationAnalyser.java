@@ -32,10 +32,13 @@ public class MutationAnalyser {
     private int mutationCounter = 0;
 
     private static final String SUBJECTS_DIR =
-            "mutationsAnalyzer/src/main/java/experiment/subjects";
+            "src/main/java/experiment/subjects";
 
     private static final String INSTRUMENTED_DIR =
-            "mutationsAnalyzer/src/main/java/experiment/instrumented";
+            "src/main/java/experiment/instrumented";
+
+    private static final String MUTANTS_DIR =
+            "src/main/java/experiment/mutants";
 
     private MutationAnalyser() {
         this.allVariables = new ArrayList<>();
@@ -325,6 +328,231 @@ public class MutationAnalyser {
             instrumentFile(file);
         }
     }
+    public static void instrumentAllObservees() {
+        File subjects = new File(SUBJECTS_DIR);
+
+        if (!subjects.exists()) {
+            System.out.println("Subjects directory not found.");
+            return;
+        }
+
+        File[] files = subjects.listFiles((dir, name) -> name.endsWith(".java"));
+
+        if (files == null || files.length == 0) {
+            System.out.println("No subject files found.");
+            return;
+        }
+
+        for (File file : files) {
+            instrumentObserveeFile(file);
+        }
+    }
+
+    public static void instrumentAllMutants() {
+        File mutants = new File(MUTANTS_DIR);
+
+        if (!mutants.exists()) {
+            System.out.println("Mutants directory not found.");
+            return;
+        }
+
+        File[] files = mutants.listFiles((dir, name) -> name.endsWith(".java"));
+
+        if (files == null || files.length == 0) {
+            System.out.println("No mutant files found.");
+            return;
+        }
+
+        for (File file : files) {
+            instrumentMutantFile(file);
+        }
+    }
+    public static void instrumentObserveeFile(File originalFile) {
+        String originalClassName = originalFile.getName().replace(".java", "");
+        String observedClassName = originalClassName + "Observee";
+
+        File observedFile = new File(INSTRUMENTED_DIR, observedClassName + ".java");
+
+        Pattern declarationPattern =
+                Pattern.compile("^\\s*(?:final\\s+)?[\\w<>\\[\\]]+\\s+(\\w+)\\s*=.+;");
+
+        Pattern assignmentPattern =
+                Pattern.compile("^\\s*(\\w+)\\s*=\\s*.+;");
+
+        Pattern compoundAssignmentPattern =
+                Pattern.compile("^\\s*(\\w+)\\s*(\\+=|-=|\\*=|/=|%=)\\s*.+;");
+
+        Pattern incrementPattern =
+                Pattern.compile("^\\s*(?:\\+\\+|--)?\\s*(\\w+)\\s*(?:\\+\\+|--)\\s*;");
+
+        Pattern returnPattern = Pattern.compile("\\breturn\\b");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(originalFile));
+             BufferedWriter observedWriter = new BufferedWriter(new FileWriter(observedFile))) {
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                if (line.startsWith("package ")) {
+                    line = "package experiment.instrumented;";
+                }
+
+                String observedLine =
+                        line.replaceAll("\\b" + Pattern.quote(originalClassName) + "\\b", observedClassName);
+
+                Matcher returnMatcher = returnPattern.matcher(line);
+
+                if (returnMatcher.find()) {
+                    String indent = line.substring(0, line.indexOf("return"));
+                    String escapedLine = line.trim().replace("\"", "\\\"");
+
+                    observedWriter.write(indent + "core.MutationAnalyser.getInstance().setCurrentCode(\""
+                            + escapedLine + "\");");
+                    observedWriter.newLine();
+
+                    observedWriter.write(indent + "core.MutationAnalyser.getInstance().takeSnapshotObservee();");
+                    observedWriter.newLine();
+                }
+
+                observedWriter.write(observedLine);
+                observedWriter.newLine();
+
+                String variableName = null;
+
+                Matcher declarationMatcher = declarationPattern.matcher(line);
+                Matcher assignmentMatcher = assignmentPattern.matcher(line);
+                Matcher compoundMatcher = compoundAssignmentPattern.matcher(line);
+                Matcher incrementMatcher = incrementPattern.matcher(line);
+
+                if (declarationMatcher.find()) {
+                    variableName = declarationMatcher.group(1);
+                } else if (compoundMatcher.find()) {
+                    variableName = compoundMatcher.group(1);
+                } else if (incrementMatcher.find()) {
+                    variableName = incrementMatcher.group(1);
+                } else if (assignmentMatcher.find()) {
+                    variableName = assignmentMatcher.group(1);
+                }
+
+                if (variableName != null) {
+                    String indent = line.substring(0, line.indexOf(line.trim()));
+                    String escapedLine = line.trim().replace("\"", "\\\"");
+
+                    observedWriter.write(indent + "core.MutationAnalyser.getInstance().setCurrentCode(\""
+                            + escapedLine + "\");");
+                    observedWriter.newLine();
+
+                    observedWriter.write(indent + "core.MutationAnalyser.getInstance().addNewVariableObservee("
+                            + variableName + ", \"" + variableName + "\");");
+                    observedWriter.newLine();
+                }
+            }
+
+            System.out.println("Observee instrumenté créé : " + observedFile.getName());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void instrumentMutantFile(File mutantFile) {
+
+        String originalClassName = mutantFile.getName().replace(".java", "");
+        String instrumentedClassName = originalClassName + "Instrumented";
+
+        File instrumentedFile = new File(INSTRUMENTED_DIR, instrumentedClassName + ".java");
+
+        Pattern declarationPattern =
+                Pattern.compile("^\\s*(?:final\\s+)?[\\w<>\\[\\]]+\\s+(\\w+)\\s*=.+;");
+
+        Pattern assignmentPattern =
+                Pattern.compile("^\\s*(\\w+)\\s*=\\s*.+;");
+
+        Pattern compoundAssignmentPattern =
+                Pattern.compile("^\\s*(\\w+)\\s*(\\+=|-=|\\*=|/=|%=)\\s*.+;");
+
+        Pattern incrementPattern =
+                Pattern.compile("^\\s*(?:\\+\\+|--)?\\s*(\\w+)\\s*(?:\\+\\+|--)\\s*;");
+
+        Pattern returnPattern = Pattern.compile("\\breturn\\b");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(mutantFile));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(instrumentedFile))) {
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                // package fix
+                if (line.startsWith("package ")) {
+                    line = "package experiment.instrumented;";
+                }
+
+                // rename class and constructor
+                String instrumentedLine =
+                        line.replaceAll("\\b" + Pattern.quote(originalClassName) + "\\b",
+                                instrumentedClassName);
+
+                // --- DETECTION RETURN ---
+                Matcher returnMatcher = returnPattern.matcher(line);
+
+                if (returnMatcher.find()) {
+
+                    String indent = line.substring(0, line.indexOf("return"));
+                    String escapedLine = line.trim().replace("\"", "\\\"");
+
+                    writer.write(indent + "core.MutationAnalyser.getInstance().setCurrentCode(\""
+                            + escapedLine + "\");");
+                    writer.newLine();
+
+                    writer.write(indent + "core.MutationAnalyser.getInstance().takeSnapshot();");
+                    writer.newLine();
+                }
+
+                // write original modified line
+                writer.write(instrumentedLine);
+                writer.newLine();
+
+                // --- DETECTION VARIABLES ---
+                String variableName = null;
+
+                Matcher declarationMatcher = declarationPattern.matcher(line);
+                Matcher assignmentMatcher = assignmentPattern.matcher(line);
+                Matcher compoundMatcher = compoundAssignmentPattern.matcher(line);
+                Matcher incrementMatcher = incrementPattern.matcher(line);
+
+                if (declarationMatcher.find()) {
+                    variableName = declarationMatcher.group(1);
+                } else if (compoundMatcher.find()) {
+                    variableName = compoundMatcher.group(1);
+                } else if (incrementMatcher.find()) {
+                    variableName = incrementMatcher.group(1);
+                } else if (assignmentMatcher.find()) {
+                    variableName = assignmentMatcher.group(1);
+                }
+
+                if (variableName != null) {
+
+                    String indent = line.substring(0, line.indexOf(line.trim()));
+                    String escapedLine = line.trim().replace("\"", "\\\"");
+
+                    writer.write(indent + "core.MutationAnalyser.getInstance().setCurrentCode(\""
+                            + escapedLine + "\");");
+                    writer.newLine();
+
+                    writer.write(indent + "core.MutationAnalyser.getInstance().addNewVariable("
+                            + variableName + ", \"" + variableName + "\");");
+                    writer.newLine();
+                }
+            }
+
+            System.out.println("Mutant instrumenté créé : " + instrumentedFile.getName());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void instrumentFile(File originalFile){
         String originalClassName = originalFile.getName().replace(".java", "");
@@ -468,7 +696,8 @@ public class MutationAnalyser {
 
     public static void main(String[] args) {
 
-        instrumentAllSubjects();
+        instrumentAllObservees();
+        instrumentAllMutants();
 
     }
 }

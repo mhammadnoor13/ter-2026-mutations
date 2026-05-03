@@ -1,4 +1,4 @@
-package experiment.subjects;
+package experiment.instrumented;
 
 import java.util.ArrayList;
 import java.util.List;

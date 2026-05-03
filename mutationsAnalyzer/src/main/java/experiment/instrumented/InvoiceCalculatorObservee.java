@@ -1,4 +1,4 @@
-package experiment.subjects;
+package experiment.instrumented;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class InvoiceCalculatorObservee {
                 core.MutationAnalyser.getInstance().addNewVariableObservee(count, "count");
             }
         }
-        total = total * 0;
+        total = total * (items.size() > 10 ? 1 : 0);
         core.MutationAnalyser.getInstance().setCurrentCode("total = total * (items.size() > 10 ? 1 : 0);");
         core.MutationAnalyser.getInstance().addNewVariableObservee(total, "total");
 

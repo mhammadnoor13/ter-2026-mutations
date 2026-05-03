@@ -1,0 +1,98 @@
+{
+  "snapshot": 13,
+  "code": "double totalRequested = requestedAmount + fee;",
+  "eliminatedVariable": "fee",
+  "previousSet": ["balance", "fee", "newBalance", "auditValue"],
+  "currentSet": ["balance", "newBalance", "totalRequested", "auditValue"]
+},
+{
+  "snapshot": 14,
+  "code": "double approvedAmount = totalRequested;",
+  "eliminatedVariable": "totalRequested",
+  "previousSet": ["balance", "newBalance", "totalRequested", "auditValue"],
+  "currentSet": ["balance", "newBalance", "approvedAmount", "auditValue"]
+},
+{
+  "snapshot": 15,
+  "code": "double newBalance = balance - approvedAmount;",
+  "eliminatedVariable": "approvedAmount",
+  "previousSet": ["balance", "newBalance", "approvedAmount", "auditValue"],
+  "currentSet": ["balance", "newBalance", "auditValue"]
+},
+{
+  "snapshot": 6,
+  "code": "double newBalance = balance - approvedAmount;",
+  "eliminatedVariable": "approvedAmount",
+  "previousSet": ["fee", "totalRequested", "approvedAmount"],
+  "currentSet": ["fee", "newBalance", "totalRequested"]
+},
+{
+  "snapshot": 7,
+  "code": "double auditValue = newBalance * 2;",
+  "eliminatedVariable": "newBalance",
+  "previousSet": ["fee", "newBalance", "totalRequested"],
+  "currentSet": ["fee", "totalRequested", "auditValue"]
+},
+{
+  "snapshot": 9,
+  "code": "balance = newBalance;",
+  "eliminatedVariable": "auditValue",
+  "previousSet": ["fee", "totalRequested", "auditValue"],
+  "currentSet": ["balance", "fee", "totalRequested"]
+},
+{
+  "snapshot": 10,
+  "code": "return balance;",
+  "eliminatedVariable": "balance",
+  "previousSet": ["balance", "fee", "totalRequested"],
+  "currentSet": ["fee", "totalRequested"]
+},
+{
+  "snapshot": 5,
+  "code": "approvedAmount = dailyLimit;",
+  "eliminatedVariable": "approvedAmount",
+  "previousSet": ["totalRequested", "approvedAmount"],
+  "currentSet": ["totalRequested"]
+},
+{
+  "snapshot": 13,
+  "code": "double totalRequested = requestedAmount + fee;",
+  "eliminatedVariable": "totalRequested",
+  "previousSet": ["totalRequested"],
+  "currentSet": []
+},
+{
+  "snapshot": 12,
+  "code": "fee = 0.0;",
+  "eliminatedVariable": "fee",
+  "previousSet": ["balance", "fee", "newBalance", "approvedAmount", "auditValue"],
+  "currentSet": ["balance", "newBalance", "totalRequested", "approvedAmount", "auditValue"]
+},
+{
+  "snapshot": 13,
+  "code": "double totalRequested = requestedAmount + fee;",
+  "eliminatedVariable": "totalRequested",
+  "previousSet": ["balance", "newBalance", "totalRequested", "approvedAmount", "auditValue"],
+  "currentSet": ["balance", "newBalance", "approvedAmount", "auditValue"]
+},
+{
+  "snapshot": 13,
+  "code": "double totalRequested = requestedAmount + fee;",
+  "eliminatedVariable": "fee",
+  "previousSet": ["balance", "fee", "newBalance", "auditValue"],
+  "currentSet": ["balance", "newBalance", "totalRequested", "auditValue"]
+},
+{
+  "snapshot": 14,
+  "code": "double approvedAmount = totalRequested;",
+  "eliminatedVariable": "totalRequested",
+  "previousSet": ["balance", "newBalance", "totalRequested", "auditValue"],
+  "currentSet": ["balance", "newBalance", "approvedAmount", "auditValue"]
+},
+{
+  "snapshot": 15,
+  "code": "double newBalance = balance - approvedAmount;",
+  "eliminatedVariable": "approvedAmount",
+  "previousSet": ["balance", "newBalance", "approvedAmount", "auditValue"],
+  "currentSet": ["balance", "newBalance", "auditValue"]
+},
